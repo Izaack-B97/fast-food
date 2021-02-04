@@ -1,5 +1,12 @@
+
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+
+// Server
+require('./backend/app');
+// Reload --> Sirve para refrescar cualquier cambio 
+// en el front
+require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -28,8 +35,6 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
-// Server
-require('./backend/app');
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
