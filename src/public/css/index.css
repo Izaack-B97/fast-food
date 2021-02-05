@@ -1,9 +1,66 @@
 body {
-  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem; */
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+#area-main {
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+
+#area-main img {
+  width: 300px;
+}
+
+#area-imagen {
+  width: 40%;
+  height: 100%;
+  float: right;
+  background-image: url('../img/dogo-menu.png');
+  background-size: 100% 100%;
+}
+
+.btn-vino {
+  background: #ab0800;
+  color: #fff;
+  padding-right: 50px;
+  padding-left: 50px;
+  width: 240px;
+}
+
+.full-expand {
+  width: 75%;
+}
+
+.margin-x {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.dogo-menu {
+  margin-top: -10px !important;
+  width: 40% !important;
+}
+
+hr {
+  color: #ab0800;
+  border: solid 2px;
+  width: 740px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mediaquerys */
+
+@media( min-width: 1200px ) {
+  
+  .full-expand {
+    width: 55%;
+  }
+
+  .dogo-menu {
+    width: 40% important;
+  }
 }
