@@ -2,7 +2,7 @@ const mysql = require('promise-mysql');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    database: 'fast-food',
+    database: 'fast_food',
     user: 'root',
     password: ''
 });
