@@ -3,9 +3,8 @@
  * TODO: Validar los tipos de datos al momento de interactuar con la bd
  */
 
-
 const { getConnection } = require('../database');
-
+ 
 module.exports = {
 
     createProduct: async ( req, res ) => {        
