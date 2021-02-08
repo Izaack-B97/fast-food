@@ -1,0 +1,42 @@
+/*
+    Aqui eestaran estilos de ayuda
+*/
+
+body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.btn-vino {
+    background: #ab0800;
+    color: #fff;
+    padding-right: 50px;
+    padding-left: 50px;
+    width: 240px;
+}
+  
+.full-expand {
+    width: 75%;
+}
+  
+.margin-x {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+@media( min-width: 1200px ) {
+  
+    .full-expand {
+      width: 55%;
+
+    }
+}
