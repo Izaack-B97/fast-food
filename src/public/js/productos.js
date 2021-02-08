@@ -1,3 +1,4 @@
+const { getToServer } = require("./helpers/llamadas");
 
 (async function() {
     console.log('--- productos.js ---');
@@ -6,5 +7,5 @@
     const data = await resp.json();
 
     console.log( data )
-
+    
 })();
