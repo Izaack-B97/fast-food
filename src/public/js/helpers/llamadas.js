@@ -8,5 +8,18 @@ module.exports = {
         } catch (error) {
             return error;
         }
+    }, 
+ 
+    postToServer: () => {
+
+    },
+
+    putToServer: () => {
+        
+    },
+
+    deleteToServer: () => {
+
     }
-}
+
+};
