@@ -1,11 +1,11 @@
-const { getToServer } = require("./helpers/llamadas");
+const { getToServer } = require( __dirname + '\\js\\helpers\\llamadas.js');
 
-(async function() {
-    console.log('--- productos.js ---');
+getToServer('productos')
+    .then(data => {
+        console.log( data )
+    })
+    .catch(err => {
+        console.log( err );
+    });
 
-    const resp = await fetch('http://localhost:3030/server/productos');
-    const data = await resp.json();
 
-    console.log( data )
-    
-})();

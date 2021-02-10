@@ -1,7 +1,12 @@
 const axios = require('axios');
 
-module.exports = {
+module.exports = { 
     getToServer: async ( endpoint ) => {
-        return await axios.get(`http://localhost/server/${ endpoint }`);
+        try {
+            const { data } = await axios.get(`http://localhost:3030/server/${ endpoint }`)
+            return data;
+        } catch (error) {
+            return error;
+        }
     }
-};
+}
