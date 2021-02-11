@@ -1,0 +1,20 @@
+.col-3 {
+    padding: opx;
+}
+
+.col-3 img {
+    width: 150px;
+    height: 100px;
+}
+
+.col-3 div.mx-auto {  
+    background: #ab0800;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 95%;
+}
+
+form{
+    width: 95%;
+}
+

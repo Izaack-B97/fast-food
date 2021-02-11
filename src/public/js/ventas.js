@@ -1,8 +1,9 @@
-(async function() {
-    console.log('--- ventas.js ---');
+const { getToServer } = require( __dirname + '\\js\\helpers\\llamadas.js');
 
-    const resp = await fetch('http://localhost:3030/server/partidas');
-    const data = await resp.json();
-
-    console.log( data )
-})();
+getToServer('partidas')
+    .then(data => {
+        console.log( data )
+    })
+    .catch(err => {
+        console.log( err );
+    });

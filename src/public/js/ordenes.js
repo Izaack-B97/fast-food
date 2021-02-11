@@ -1,8 +1,9 @@
-(async function() {
-    console.log('--- ordenes.js ---');
-    
-    const resp = await fetch('http://localhost:3030/server/ordenes');
-    const data = await resp.json();
+const { getToServer } = require('./js/helpers/llamadas');
 
-    console.log( data )
-})();
+getToServer('ordenes')
+    .then(data => {
+        console.log( data )
+    })  
+    .catch(err => {
+        console.log( err );
+    });
