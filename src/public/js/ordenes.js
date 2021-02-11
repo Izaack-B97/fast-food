@@ -1,9 +1,9 @@
-const { getToServer } = require( __dirname + '\\js\\helpers\\llamadas.js');
+const { getToServer } = require('./js/helpers/llamadas');
 
 getToServer('ordenes')
     .then(data => {
         console.log( data )
-    })
+    })  
     .catch(err => {
         console.log( err );
     });
