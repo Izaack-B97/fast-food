@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Notification } = require('electron');
 const path = require('path');
 
 // Server
@@ -20,14 +20,15 @@ const createWindow = () => {
     height: 750,
     // resizable: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true 
     }
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
   
-  mainWindow.setMenuBarVisibility( false );
+  // mainWindow.setMenuBarVisibility( false );
   mainWindow.maximize(); 
   
   // Open the DevTools.
@@ -59,3 +60,18 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+// FIXME: MIS FUNCIONES
+
+const hola = () => {
+  console.log('hola');
+};
+
+const newNotification = ( title, mensaje ) => {
+  console.log(title, mensaje);
+};
+
+module.exports = {
+  hola,
+  newNotification
+};

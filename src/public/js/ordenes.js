@@ -1,4 +1,3 @@
-// TODO: Arreglar el total a pagar
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
 
 (() => {
@@ -29,9 +28,11 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
 
             // Dibujamos los productos dinamicamente
             productos.forEach(producto => {
+
                 if ( producto.id_tc === 1 ) {
                     tdComida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <input type="hidden" value="${ producto.id_producto }">
                             <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
@@ -41,6 +42,7 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
                 if ( producto.id_tc === 2 ) {
                     tdBebida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <input type="hidden" value="${ producto.id_producto }">
                             <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
@@ -50,6 +52,7 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
                 if ( producto.id_tc === 3 ) {
                     tdPostre.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <input type="hidden" value="${ producto.id_producto }">
                             <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
@@ -64,20 +67,25 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
 
             arrayDivProductos.forEach(divProducto => {
                 divProducto.addEventListener('click', function(e) {
-                    const detallesProducto = this.childNodes.item(3).textContent;
+                    const idProducto = parseInt(this.childNodes.item(1).value);
+                    const detallesProducto = this.childNodes.item(5).textContent;
+                    const price = this.childNodes.item(5).querySelector('span').textContent;
                     const divTotal = document.querySelector('#total');
+
                     listaOrdenes.innerHTML += `
                         <li class="mt-1 animate__animated animate__bounceIn">
+                            <input type="hidden" value="${ idProducto }" class="idProducto">
+                            <input type="visible" value="${ price }" class="price">
                             <img src="./img/dogo-ejemplo.png" class="float-start" alt="ejemplo">
                             <p>${ detallesProducto }</p>
                             <div class="clearfix"></div>
                         </li>
                     `;
 
-                    const precioProducto = parseFloat( this.childNodes.item(3).lastChild.textContent );
-                    totalPagar += parseFloat( divTotal.textContent ) + precioProducto;
-                    divTotal.textContent = totalPagar;
-
+                    const precioProducto = parseFloat( this.childNodes.item(5).lastChild.textContent );
+                    totalPagar += precioProducto;
+                    divTotal.textContent = totalPagar;                    
+                    
                     btnVenta.removeAttribute('disabled');
                     btnCancelarVenta.removeAttribute('disabled');
                 });
@@ -102,7 +110,7 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
 
                 const btnGuardarOrden = document.querySelector('#btnCerrarOrden');
                 const btnCancelarOrden = document.querySelector('#btnCancelarOrden');
-                const btnCancelarVenta = document.querySelector('#btnCancelarVenta');
+                // const btnCancelarVenta = document.querySelector('#btnCancelarVenta');
 
                 btnGuardarOrden.addEventListener('click', () => {
                     // const lis = listaOrdenes.querySelectorAll('li');
@@ -118,12 +126,45 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
                     postToServer('ordenes', data)
                         .then(resp => {
                             console.log('Orden guardada');
+                            
+                            const productosGuardar = [];
+
+                            // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
+                            const liProductos = listaOrdenes.querySelectorAll('li');
+                            liProductos.forEach(li => {
+                                productosGuardar.push({
+                                    id_producto: parseInt( li.querySelector('input').value ),
+                                    cantidad: 1,
+                                    importe:  parseInt( li.querySelector('.price').value ),
+                                    id_orden: 2
+                                });
+                            });
+
+                            // Guardamos en pártidas todos los productos
+                            productosGuardar.forEach(productoPartida => {
+                                postToServer('partidas', productoPartida)
+                                    .then(resp => {
+                                        // console.log( resp );
+                                    })
+                                    .catch( err => {
+                                        console.log( err );
+                                    });
+                            });
+                            
+                            /**
+                             * AQUI ACCEDEMOS AL PROCESO PRINCIPAL
+                             * PARA INTERACTUAR CON LAS FUNCIONES
+                             */
+                            const { remote } = require('electron');
+                            const main = remote.require('./index.js');
+
+                            main.newNotification('titulo', 'mensaje');
                             location.reload();
                         })
                         .catch(err => {
                             console.log( err );
                         })
-                });
+                }); 
 
                 btnCancelarOrden.addEventListener('click', () => {
                     location.reload();

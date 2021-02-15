@@ -7,7 +7,8 @@ const {
     getPartida,
     getPartidas,
     updatePartida,
-    deletePartida
+    deletePartida,
+    getPartidasByOrden
 } = require('../controllers/partidas-controller');
 
 router.route('/partidas')
@@ -18,5 +19,8 @@ router.route('/partidas/:id')
     .get( getPartida )
     .put( updatePartida )
     .delete( deletePartida );
+
+router.route('/partidas/orden/:id')
+    .get( getPartidasByOrden );
 
 module.exports = router;
