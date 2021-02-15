@@ -33,6 +33,14 @@ body {
   float: left;
 }
 
+.btn-block {
+    width: 100%;
+}
+
+.bg-vino {
+    background: #ab0800;
+}
+
 @media( min-width: 1200px ) {
   
     .full-expand {
