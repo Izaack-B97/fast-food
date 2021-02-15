@@ -12,10 +12,9 @@ module.exports = {
 
             const query = `
                 INSERT INTO orden 
-                    (fecha_orden , total_pagar, especificacion_orden)
+                    (total_pagar, especificacion_orden)
                 VALUES
-                    ("2121-02-06",
-                    ${ req.body.total_pagar }, 
+                    (${ req.body.total_pagar }, 
                     "${ req.body.especificacion_orden }");
             `;
 

@@ -1,4 +1,4 @@
-const { getToServer } = require( __dirname + '\\js\\helpers\\llamadas.js');
+const { getToServer } = require('./js/helpers/llamadas');
 
 getToServer('productos')
     .then(data => {
