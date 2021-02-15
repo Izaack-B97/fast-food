@@ -5,7 +5,7 @@
 body {
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .btn-vino {
@@ -39,6 +39,10 @@ body {
 
 .bg-vino {
     background: #ab0800;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 @media( min-width: 1200px ) {

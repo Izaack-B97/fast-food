@@ -1,54 +1,141 @@
+// TODO: Arreglar el total a pagar
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
 
 (() => {
     console.log('--- ordenes.js ---');
 
-    getToServer('ordenes')
-        .then(resp => {
-            console.log( resp );
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    getToServer('productos')
+        .then( productos => {
+            console.log(productos);
+            let orden = [];
 
-    const btnRegistrar = document.querySelector('#btn-registrar');
-    const inputTotal = document.querySelector('#total');
-    const inputDescripcion = document.querySelector('#descripcion');
-    const btnNuevaVentana = document.querySelector('#btnNuevaVentana')
-    
-    // Accion para registrar ordenes
-    btnRegistrar.addEventListener('click', () => {
+            const tabla_productos = document.querySelector('#table-productos');
+            const tbody = tabla_productos.childNodes.item(3);
+            
+            // Ordenamos los productos  
+            productos.sort((a, b) => {
+                if (a.id_tc > b.id_tc) return 1;
+                if (a.id_tc < b.id_tc) return -1;
+                return 0; // Son iguales
+            });
 
-        const data = {
-            total_pagar: inputTotal.value,
-            especificacion_orden: inputDescripcion.value
-        }
+            const tdComida = tbody.childNodes.item(1).childNodes.item(1);
+            const tdBebida = tbody.childNodes.item(1).childNodes.item(3);
+            const tdPostre = tbody.childNodes.item(1).childNodes.item(5);
 
-        postToServer('ordenes', data)
-            .then(resp => {
-                window.location = '/';
-
-            })
-            .catch(err => {
-                console.log( err )
-            })
-    });
-
-
-    btnNuevaVentana.addEventListener('click', () => {
-        const electron = require('electron');
-        const path = require('path');
-        const BrowserWindow = electron.remote.BrowserWindow;
-        const url = path.join('file://', __dirname, 'cocinero.html');
-        const win = new BrowserWindow({
-            height: 500,
-            width: 500,
-            webPreferences: {
-                nodeIntegration: true 
+            const handleVenta = () => {
+                console.log( 'hola' );
             }
-        });
 
-        win.show();
+            // Dibujamos los productos dinamicamente
+            productos.forEach(producto => {
+                if ( producto.id_tc === 1 ) {
+                    tdComida.innerHTML += `
+                        <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
+                        </div>
+                    `;
+                }
+
+                if ( producto.id_tc === 2 ) {
+                    tdBebida.innerHTML += `
+                        <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
+                        </div>
+                    `;
+                }
+
+                if ( producto.id_tc === 3 ) {
+                    tdPostre.innerHTML += `
+                        <div class="card bg-vino mt-1" style="cursor: pointer">
+                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
+                        </div>
+                    `;
+                }
+            });
+
+            let totalPagar = 0;
+            const arrayDivProductos = document.querySelectorAll('div.card');
+            const btnVenta = document.querySelector('#btnVenta');
+            const listaOrdenes = document.querySelector('#lista-ordenes');
+
+            arrayDivProductos.forEach(divProducto => {
+                divProducto.addEventListener('click', function(e) {
+                    const detallesProducto = this.childNodes.item(3).textContent;
+                    const divTotal = document.querySelector('#total');
+                    listaOrdenes.innerHTML += `
+                        <li class="mt-1 animate__animated animate__bounceIn">
+                            <img src="./img/dogo-ejemplo.png" class="float-start" alt="ejemplo">
+                            <p>${ detallesProducto }</p>
+                            <div class="clearfix"></div>
+                        </li>
+                    `;
+
+                    const precioProducto = parseFloat( this.childNodes.item(3).lastChild.textContent );
+                    totalPagar += parseFloat( divTotal.textContent ) + precioProducto;
+                    divTotal.textContent = totalPagar;
+
+                    btnVenta.removeAttribute('disabled');
+                    btnCancelarVenta.removeAttribute('disabled');
+                });
+            });
+
+            btnVenta.addEventListener('click', () => {
+                
+                const spaceVenta = document.querySelector('#space-venta');
+                spaceVenta.innerHTML = `
+                    <form class=" animate__animated animate__bounceIn">
+                        <div class="form-group">
+                            <textarea id="descripcion" name="descripcion" class="form-control" rows="10" placeholder="Descripción de la orden" autofocus></textarea>
+                        </div>
+                        <div class="form-group mt-5">
+                            <a type="text" id="btnCerrarOrden" class="btn btn-success btn-block py-3">Guardar orden</a>
+                        </div>
+                        <div class="form-group mt-1">
+                            <a type="text" id="btnCancelarOrden" class="btn btn-danger btn-block py-3">Cancelar orden</a>
+                        </div>
+                    </form>
+                `;
+
+                const btnGuardarOrden = document.querySelector('#btnCerrarOrden');
+                const btnCancelarOrden = document.querySelector('#btnCancelarOrden');
+                const btnCancelarVenta = document.querySelector('#btnCancelarVenta');
+
+                btnGuardarOrden.addEventListener('click', () => {
+                    // const lis = listaOrdenes.querySelectorAll('li');
+                    // for (let i = 0; i < lis.length; i++) {
+                    //     console.log( lis[i] );
+                    // }
+
+                    const data = {
+                        total_pagar: totalPagar,
+                        especificacion_orden: document.querySelector('#descripcion').value
+                    };
+
+                    postToServer('ordenes', data)
+                        .then(resp => {
+                            console.log('Orden guardada');
+                            location.reload();
+                        })
+                        .catch(err => {
+                            console.log( err );
+                        })
+                });
+
+                btnCancelarOrden.addEventListener('click', () => {
+                    location.reload();
+                })
+            });
+
+            btnCancelarVenta.addEventListener('click', () => {
+                location.reload();
+            });
+
+    }).catch( err => {
+        console.log(err);
     });
 
 })();
