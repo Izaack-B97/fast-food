@@ -3,6 +3,7 @@
  * TODO: Hacer las validaciones que faltan para los tipos de datos que se mandan
  */
 
+const { query } = require('express');
 const { getConnection } = require('../database');
 
 module.exports = {
@@ -91,6 +92,8 @@ module.exports = {
             const conn = await getConnection();
             const result = await conn.query( query );
 
+            
+
             res.json( result );
 
         } catch (error) {
@@ -112,5 +115,28 @@ module.exports = {
                 message: 'Error al eliminar partida: ' + error
             });
         }
+    },
+
+    getPartidasByOrden: async ( req, res ) => {
+
+        try {
+            const query = `
+                SELECT * FROM partida
+                WHERE id_orden = ${ req.params.id };
+            `;
+
+            const conn = await getConnection();
+            const result = await conn.query( query );
+
+            res.json( result );
+
+        } catch (error) {
+            res.json({
+                status: 'failed',
+                message: 'Error al obtener la partida con orden: ' + error
+            })
+        }
+    
+
     }
 };
