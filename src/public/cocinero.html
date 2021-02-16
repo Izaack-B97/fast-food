@@ -12,43 +12,21 @@
     <link rel="stylesheet" href="./css/helps.css">
     <link rel="stylesheet" href="./css/cocinero.css">
 </head>
-<body class="p-5 animate__animated animate__bounceInLeft">
+<body class="p-5">
     <header class="mx-5 text-center">
         <img src="./img/logo.png" alt="logo" class="">
     </header>
-    <a href="./ventas.html">Regresar</a>
     <main class="container">
         <div class="row">
-            <div class="col-md-5">
-                <table class="table bg-vino text-white text-center h3 table-bordered">
+            <div id="area-ordenes" class="col-md-5">
+                <table id="table-ordenes" class="table bg-vino text-white text-center h3 table-bordered animate__animated animate__fadeIn">
                     <thead>
                         <tr>
                             <th scope="col">#ORDEN</th>
                             <th scope="col">HORA</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">#1</th>
-                            <td>14:00</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">#2</th>
-                            <td>16:51</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">#3</th>
-                            <td> 17:00 </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">#4</th>
-                            <td> 17:50 </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">#5</th>
-                            <td> 18:10 </td>
-                        </tr>
-                    </tbody>
+                    <tbody> <!--Aqui iran mis ordenes dinamicas--> </tbody>
                 </table>
             </div>
             <div class="col-md-7 bg-vino text-white text-center">
@@ -65,7 +43,7 @@
             </div>
         </div>
         <div class="col-md-12 mt-5 mx-0">
-            <button class="btn btn-vino py-3 btn-block">SIGUIENTE</button>
+            <button id="btnSiguiente" class="btn btn-vino py-3 btn-block">SIGUIENTE</button>
         </div>
     </main>
     <script src="./js/cocinero.js"></script>

@@ -3,6 +3,19 @@ img {
      height: 100px;
 }
 
-td div {
+#area-ordenes {
+     height: 400px;
+     overflow: auto;
+     /* max-height: 400px !important; */
+     /* overflow-y: auto; */
+}
+
+
+
+table tbody tr {
      cursor: pointer;
+}
+
+table tbody tr:hover  {
+     background: lightgray;
 }

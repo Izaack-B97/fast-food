@@ -1,4 +1,5 @@
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
+const { remote, ipcRenderer } = require('electron');
 
 (() => {
     console.log('--- ordenes.js ---');
@@ -155,9 +156,7 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
                              * AQUI ACCEDEMOS AL PROCESO PRINCIPAL
                              * PARA INTERACTUAR CON LAS FUNCIONES
                              */
-                            const { remote } = require('electron');
                             const main = remote.require('./index.js');
-
                             main.newNotification('titulo', 'mensaje');
                             location.reload();
                         })
@@ -175,6 +174,10 @@ const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene
                 location.reload();
             });
 
+            ipcRenderer.on('event:back-message', ( event, mensaje ) => {
+                console.log( mensaje );
+            });
+            
     }).catch( err => {
         console.log(err);
     });
