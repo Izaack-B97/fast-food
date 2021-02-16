@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, Notification } = require('electron');
+const { app, BrowserWindow, Notification, ipcMain } = require('electron');
 const path = require('path');
 
 // Server
@@ -13,9 +13,12 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+let mainWindow;
+let cocineroWindow;
+
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1300,
     height: 750,
     // resizable: false,
@@ -29,10 +32,25 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
   
   // mainWindow.setMenuBarVisibility( false );
+  // mainWindow.setMenu( null )
   mainWindow.maximize(); 
   
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+
+  
+  cocineroWindow = new BrowserWindow({
+    width: 1300,
+    height: 750,
+    // resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true 
+    }
+  });
+
+  cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
+
 };
 
 // This method will be called when Electron has finished
@@ -40,6 +58,10 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
 
+
+ipcMain.on('event:hola', (event, mensaje) => {
+  mainWindow.webContents.send('event:back-message', mensaje);
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -63,15 +85,12 @@ app.on('activate', () => {
 
 // FIXME: MIS FUNCIONES
 
-const hola = () => {
-  console.log('hola');
-};
-
 const newNotification = ( title, mensaje ) => {
   console.log(title, mensaje);
+  const myNotification = new Notification( title, { body: mensaje } );
+  myNotification.show();
 };
 
 module.exports = {
-  hola,
   newNotification
 };
