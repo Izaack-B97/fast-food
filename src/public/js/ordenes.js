@@ -76,7 +76,7 @@ const { remote, ipcRenderer } = require('electron');
                     listaOrdenes.innerHTML += `
                         <li class="mt-1 animate__animated animate__bounceIn">
                             <input type="hidden" value="${ idProducto }" class="idProducto">
-                            <input type="visible" value="${ price }" class="price">
+                            <input type="hidden" value="${ price }" class="price">
                             <img src="./img/dogo-ejemplo.png" class="float-start" alt="ejemplo">
                             <p>${ detallesProducto }</p>
                             <div class="clearfix"></div>
@@ -126,8 +126,12 @@ const { remote, ipcRenderer } = require('electron');
 
                     postToServer('ordenes', data)
                         .then(resp => {
+                            console.log(resp);
                             console.log('Orden guardada');
                             
+                            data.id = resp.insertId
+                            ipcRenderer.send('orden-levantada', data)
+
                             const productosGuardar = [];
 
                             // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
@@ -158,7 +162,8 @@ const { remote, ipcRenderer } = require('electron');
                              */
                             const main = remote.require('./index.js');
                             main.newNotification('titulo', 'mensaje');
-                            location.reload();
+                            // location.reload();
+
                         })
                         .catch(err => {
                             console.log( err );

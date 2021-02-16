@@ -121,8 +121,21 @@ module.exports = {
 
         try {
             const query = `
-                SELECT * FROM partida
-                WHERE id_orden = ${ req.params.id };
+                SELECT 
+                    orden.id_orden, 
+                    orden.especificacion_orden, 
+                    partida.cantidad, 
+                    producto.nombre_producto 
+                FROM 
+                    orden, 
+                    producto, 
+                    partida 
+                WHERE 
+                    orden.id_orden = 1
+                AND 
+                    partida.id_producto=producto.id_producto;
+                AND
+                    partida.id_orden = 1;
             `;
 
             const conn = await getConnection();
