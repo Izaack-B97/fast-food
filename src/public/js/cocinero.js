@@ -2,6 +2,22 @@ const { getToServer } = require('./js/helpers/llamadas');
 const { ipcRenderer } = require('electron');
 const moment = require('moment');
 
+// Este metodo me dibujara toda 
+// la infor de la orden
+const dibujarInfo = ( orden ) => {
+    const infoOrden = document.querySelector('#info-orden');
+
+    infoOrden.innerHTML = '';
+    infoOrden.innerHTML += `
+        <li>
+            <p class="text-white h2 pull-left">
+                Descripci&oacute;n: 
+                <i>${orden[0].especificacion_orden}</i>
+            </p>
+        </li>
+    `;
+
+};
 
 (() => {
     console.log('--- cocinero.js ---');
@@ -36,8 +52,9 @@ const moment = require('moment');
                     const id = parseInt( row.querySelector('td').textContent );
                     getToServer(`ordenes/${ id }`)
                         .then(data => {
-                            console.log( data );
+                            // console.log( data );
                             btnSiguiente.removeAttribute('disabled');
+                            dibujarInfo(data);
                         })
                         .catch(err => {
                             console.log( err );
@@ -74,8 +91,10 @@ const moment = require('moment');
                             const id = parseInt( tr.querySelector('td').textContent );
                             getToServer(`ordenes/${ id }`)
                                 .then(data => {
-                                    console.log( data );
+                                    // console.log( data );
                                     btnSiguiente.removeAttribute('disabled');
+                                    dibujarInfo( data );
+
                                 })
                                 .catch(err => {
                                     console.log( err );
