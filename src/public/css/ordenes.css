@@ -1,7 +1,18 @@
 img{
     width: 150px;
+    height: 100px;
 }
 
 p.h1 {
     font-size: 100px;
+}
+
+.card.bg-vino {
+    width: 160px;
+}
+
+@media (min-width: 1400px) {
+    .margen-derecho {
+        /* margin-right: 5px; */
+    }
 }

@@ -11,7 +11,7 @@ const { getToServer } = require('./js/helpers/llamadas');
             mySpace.innerHTML += `
                 <div class="col-3 mt-2">
                     <div class="mx-auto">
-                        <img src="./img/dogo-menu1.png" alt="dogo">
+                        <img src="${ producto.url }" alt="dogo">
                     </div>
                     <form class="mx-auto mt-2 form-group">
                         <div class="form-group">

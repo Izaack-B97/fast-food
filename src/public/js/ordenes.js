@@ -34,7 +34,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdComida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -44,7 +44,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdBebida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -54,7 +54,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdPostre.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -69,6 +69,7 @@ const { remote, ipcRenderer } = require('electron');
             arrayDivProductos.forEach(divProducto => {
                 divProducto.addEventListener('click', function(e) {
                     const idProducto = parseInt(this.childNodes.item(1).value);
+                    const urlProducto = this.querySelector('img').src;
                     const detallesProducto = this.childNodes.item(5).textContent;
                     const price = this.childNodes.item(5).querySelector('span').textContent;
                     const divTotal = document.querySelector('#total');
@@ -77,7 +78,7 @@ const { remote, ipcRenderer } = require('electron');
                         <li class="mt-1 animate__animated animate__bounceIn">
                             <input type="hidden" value="${ idProducto }" class="idProducto">
                             <input type="hidden" value="${ price }" class="price">
-                            <img src="./img/dogo-ejemplo.png" class="float-start" alt="ejemplo">
+                            <img src="${ urlProducto }" class="float-start" alt="ejemplo">
                             <p>${ detallesProducto }</p>
                             <div class="clearfix"></div>
                         </li>
@@ -132,7 +133,7 @@ const { remote, ipcRenderer } = require('electron');
                             spaceVenta.innerHTML = '';
                             spaceVenta.innerHTML += `
                                 <div class="alert alert-success animate__animated animate__bounceInRight" role="alert">
-                                    Orden guardada satisfactoriamente
+                                    Orden levantada y guardada satisfactoriamente
                                 </div>
                             `;
 
