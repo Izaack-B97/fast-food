@@ -32,11 +32,14 @@ const moment = require('moment');
             const rows = tbody.querySelectorAll('tr');
             rows.forEach(row => {
                 row.addEventListener('click', () => {
+
+                    console.log('eyeyey');
+
                     const id = parseInt( row.querySelector('td').textContent );
                     getToServer(`ordenes/${ id }`)
                         .then(data => {
                             console.log( data );
-                            btnSiguiente.removeAttribute('disabled')
+                            btnSiguiente.removeAttribute('disabled');
                         })
                         .catch(err => {
                             console.log( err );
@@ -44,6 +47,7 @@ const moment = require('moment');
                 }) ;
             }); 
 
+            // Aqui esta cachando la orden levantanda
             ipcRenderer.on('orden-levantada', ( event, data ) => {
                 const now = new Date();
                 console.log( data );

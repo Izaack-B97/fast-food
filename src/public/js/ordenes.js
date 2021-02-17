@@ -129,8 +129,16 @@ const { remote, ipcRenderer } = require('electron');
                             console.log(resp);
                             console.log('Orden guardada');
                             
+                            spaceVenta.innerHTML = '';
+                            spaceVenta.innerHTML += `
+                                <div class="alert alert-success animate__animated animate__bounceInRight" role="alert">
+                                    Orden guardada satisfactoriamente
+                                </div>
+                            `;
+
                             data.id = resp.insertId
                             ipcRenderer.send('orden-levantada', data)
+                            
 
                             const productosGuardar = [];
 
@@ -164,6 +172,10 @@ const { remote, ipcRenderer } = require('electron');
                             main.newNotification('titulo', 'mensaje');
                             // location.reload();
 
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1300);
+
                         })
                         .catch(err => {
                             console.log( err );
@@ -172,7 +184,7 @@ const { remote, ipcRenderer } = require('electron');
 
                 btnCancelarOrden.addEventListener('click', () => {
                     location.reload();
-                })
+                });
             });
 
             btnCancelarVenta.addEventListener('click', () => {
