@@ -26,15 +26,15 @@ const render_grafico = (div ,tipo, columnas, data) => {
                 borderWidth: 1
             }]
         },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
+        // options: {
+        //     scales: {
+        //         yAxes: [{
+        //             ticks: {
+        //                 beginAtZero: true
+        //             }
+        //         }]
+        //     }
+        // }
     });
 }
 module.exports = render_grafico;

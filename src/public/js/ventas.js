@@ -41,8 +41,6 @@ const render_productos = ( productos ) => {
                     </li>
                 `;  
             });
-        
-
     })
     .catch(err => {
         console.log( err );
