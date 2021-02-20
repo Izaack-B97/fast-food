@@ -1,5 +1,7 @@
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
 const { remote, ipcRenderer } = require('electron');
+const spaceVenta = document.querySelector('#space-venta');
+
 
 (() => {
     console.log('--- ordenes.js ---');
@@ -8,6 +10,16 @@ const { remote, ipcRenderer } = require('electron');
         .then( productos => {
             console.log(productos);
             let orden = [];
+
+            const divOrden = document.querySelector('#orden');
+            getToServer('ordenes')
+                .then(ordenes => {
+                    console.log( ordenes );
+                    divOrden.textContent = ordenes[ordenes.length - 1].id_orden + 1;
+                })
+                .catch(err => {
+                    console.log( err );
+                })
 
             const tabla_productos = document.querySelector('#table-productos');
             const tbody = tabla_productos.childNodes.item(3);
@@ -34,7 +46,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdComida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -44,7 +56,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdBebida.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -54,7 +66,7 @@ const { remote, ipcRenderer } = require('electron');
                     tdPostre.innerHTML += `
                         <div class="card bg-vino mt-1" style="cursor: pointer">
                             <input type="hidden" value="${ producto.id_producto }">
-                            <img src="./img/dogo-ejemplo.png" class="mx-auto" alt="ejemplo">
+                            <img src="${ producto.url }" class="mx-auto" alt="ejemplo">
                             <small>${ producto.nombre_producto } $<span>${ producto.precio_producto }</span></small>
                         </div>
                     `;
@@ -69,6 +81,7 @@ const { remote, ipcRenderer } = require('electron');
             arrayDivProductos.forEach(divProducto => {
                 divProducto.addEventListener('click', function(e) {
                     const idProducto = parseInt(this.childNodes.item(1).value);
+                    const urlProducto = this.querySelector('img').src;
                     const detallesProducto = this.childNodes.item(5).textContent;
                     const price = this.childNodes.item(5).querySelector('span').textContent;
                     const divTotal = document.querySelector('#total');
@@ -76,8 +89,8 @@ const { remote, ipcRenderer } = require('electron');
                     listaOrdenes.innerHTML += `
                         <li class="mt-1 animate__animated animate__bounceIn">
                             <input type="hidden" value="${ idProducto }" class="idProducto">
-                            <input type="visible" value="${ price }" class="price">
-                            <img src="./img/dogo-ejemplo.png" class="float-start" alt="ejemplo">
+                            <input type="hidden" value="${ price }" class="price">
+                            <img src="${ urlProducto }" class="float-start" alt="ejemplo">
                             <p>${ detallesProducto }</p>
                             <div class="clearfix"></div>
                         </li>
@@ -93,8 +106,7 @@ const { remote, ipcRenderer } = require('electron');
             });
 
             btnVenta.addEventListener('click', () => {
-                
-                const spaceVenta = document.querySelector('#space-venta');
+
                 spaceVenta.innerHTML = `
                     <form class=" animate__animated animate__bounceIn">
                         <div class="form-group">
@@ -126,26 +138,42 @@ const { remote, ipcRenderer } = require('electron');
 
                     postToServer('ordenes', data)
                         .then(resp => {
+                            console.log(resp);
                             console.log('Orden guardada');
                             
+                            spaceVenta.innerHTML = '';
+                            spaceVenta.innerHTML += `
+                                <div class="alert alert-success animate__animated animate__bounceInRight" role="alert">
+                                    Orden levantada y guardada satisfactoriamente
+                                </div>
+                            `;
+
+                            data.id = resp.insertId
+                            ipcRenderer.send('orden-levantada', data)
+                            
+
                             const productosGuardar = [];
 
                             // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
                             const liProductos = listaOrdenes.querySelectorAll('li');
+                            console.log(liProductos )
                             liProductos.forEach(li => {
                                 productosGuardar.push({
                                     id_producto: parseInt( li.querySelector('input').value ),
                                     cantidad: 1,
                                     importe:  parseInt( li.querySelector('.price').value ),
-                                    id_orden: 2
+                                    id_orden: parseInt( divOrden.textContent )
                                 });
                             });
 
+                            console.log( productosGuardar );
+
                             // Guardamos en pártidas todos los productos
                             productosGuardar.forEach(productoPartida => {
+                                
                                 postToServer('partidas', productoPartida)
                                     .then(resp => {
-                                        // console.log( resp );
+                                        console.log( resp );
                                     })
                                     .catch( err => {
                                         console.log( err );
@@ -158,7 +186,12 @@ const { remote, ipcRenderer } = require('electron');
                              */
                             const main = remote.require('./index.js');
                             main.newNotification('titulo', 'mensaje');
-                            location.reload();
+                            // location.reload();
+
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1300);
+
                         })
                         .catch(err => {
                             console.log( err );
@@ -167,15 +200,38 @@ const { remote, ipcRenderer } = require('electron');
 
                 btnCancelarOrden.addEventListener('click', () => {
                     location.reload();
-                })
+                });
             });
 
             btnCancelarVenta.addEventListener('click', () => {
                 location.reload();
             });
 
+            // Mis eventos
             ipcRenderer.on('event:back-message', ( event, mensaje ) => {
                 console.log( mensaje );
+            });
+
+            ipcRenderer.on('orden-lista', ( event, id_orden ) => {
+
+                const areaOrdenesListas = spaceVenta.querySelector('#area-ordenes-listas');
+                
+                const notificacionOrdenLista = `
+                    <div class="alert alert-success alert-dismissible fade show mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                        La orden ${ id_orden } está lista
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+
+                areaOrdenesListas.innerHTML += notificacionOrdenLista;
+                
+                setTimeout(() => {
+                    const divsNotificacionsOrdenesListas =  document.querySelectorAll('.notificacion_orden');
+                    divsNotificacionsOrdenesListas.forEach(div => {
+                        div.classList.remove('animate__animated');
+                        div.classList.remove('animate__bounceInRight');
+                    });
+                }, 1000);              
             });
             
     }).catch( err => {

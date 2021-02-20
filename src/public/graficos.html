@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/> 
     <link rel="stylesheet" href="./css/header.css">
     <link rel="stylesheet" href="./css/helps.css">
+    <link rel="stylesheet" href="./css/graficos.css">
 </head>
 <body class="p-5 animate__animated animate__bounceInLeft">
     <header class="mx-5 text-center">
@@ -19,43 +20,51 @@
         <div class="clearfix"></div>
     </header>
     <!-- Area de los graficos -->
-    <section class="text-center mt-3">
-        <p class="lead">En este apartado se mostrará el número de productos vendidos el último mes, los meses que pasen se agregarán a la base de datos.</p>
+    <section class="text-center mt-5">
+        <p class="lead mt-5">En este apartado se mostrará el número de productos vendidos el último mes, los meses que pasen se agregarán a la base de datos.</p>
 
         <div class="row">
             <div class="col-12">
                 <div class="row pt-5 px-5">
                     <div class="col-md-4">
-                        <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi placeat quod minima quo illum culpa corporis deleniti aut temporibus fugiat accusamus iste eius ipsa ad nobis, facilis, assumenda repudiandae possimus?</p>
-                        <small>
-                            <b>Ganancias</b>
+                        <canvas id="myChart" width="300" height="300"></canvas>
+                        <small style="margin-top: 10px !important;">
+                            <b>Ganancias $2456</b>
                         </small>
                     </div>
                     <div class="col-8">
                         <div class="row">
-                            <div class="col-6">
-                                <small>
+                            <div class="col-6 p-3">
+                                <canvas id="myChartDogos" class="pull-left"></canvas>
+                                <small class="">
                                     <b>Dogos vendidos</b>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora </p>
                                 </small>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 p-3">
+                                <canvas id="myChartBebidas" class="pull-left"></canvas>
                                 <small>
                                     <b>Bebidas vendidos</b>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora </p>
                                 </small>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 p-3">
+                                <canvas id="myChartMomias" class="pull-left"></canvas>
                                 <small>
                                     <b>Momias vendidos</b>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora </p>
                                 </small>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 p-3">
+                                <canvas id="myChartHamburguesas" class="pull-left"></canvas>
                                 <small>
                                     <b>Hamburguesas vendidos</b>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora </p>
                                 </small>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +73,11 @@
         </div>
 
     </section>
+    <section>
+    </section>
     <!-- End area de los graficos -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script> 
     <script src="./js/graficos.js"></script>
 </body>
 </html>

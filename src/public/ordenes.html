@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-6">
                 <table id="table-productos" class="table text-center">
-                    <thead>
+                    <thead class="margen-derecho">
                         <tr>
                             <th>COMIDAS</th>
                             <th>BEBIDAS</th>
@@ -43,7 +43,11 @@
             <div class="col-md-5 offset-1 bg-vino text-center text-white py-3">
                 <div id="space-venta">
                     <header class="mt-1">
-                        <h3>ORDEN #1 HORA 16:41</h3>
+                        <h3>ORDEN  
+                            # <span id="orden"></span>
+                            HORA 
+                            <span id="hora-orden">16:41</span>
+                        </h3>
                     </header>
                     <ul class="list-unstyled" id="lista-ordenes">
                         <!-- Aqui iran mis ordenes dinamicas -->
@@ -56,6 +60,7 @@
                     </div>
                     <button id="btnVenta" class="btn btn-block btn-light py-3" disabled>Generar Venta</button>
                     <button id="btnCancelarVenta" class="btn btn-block btn-danger py-3 mt-3" disabled>Cancelar Venta</button>
+                    <div id="area-ordenes-listas"></div>
                 </div>
             </div>
         </div>

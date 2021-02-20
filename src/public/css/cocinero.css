@@ -10,12 +10,22 @@ img {
      /* overflow-y: auto; */
 }
 
-
-
 table tbody tr {
      cursor: pointer;
 }
 
 table tbody tr:hover  {
      background: lightgray;
+}
+
+#info-orden {
+     height: 300px;
+     overflow-y: auto;
+     overflow-x: hidden;
+}
+
+#info-orden img{
+      width: 54px;
+      height: 50px;
+      float: left;
 }

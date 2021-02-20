@@ -72,12 +72,13 @@ module.exports = {
     },
 
     updateProduct: async ( req, res ) => {
+        // console.log( req.body );
         try {
             const query = `
                 UPDATE producto SET 
                 nombre_producto = "${ req.body.nombre_producto }",
                 precio_producto = ${ req.body.precio_producto },
-                tipo_producto   = "${ req.body.tipo_producto }"
+                id_tc   = "${ req.body.id_tc }"
                 WHERE id_producto = ${ req.params.id };
             `;
 
