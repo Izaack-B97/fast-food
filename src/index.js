@@ -31,7 +31,7 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
   
-  // mainWindow.setMenuBarVisibility( false );
+  mainWindow.setMenuBarVisibility( false );
   // mainWindow.setMenu( null )
   mainWindow.maximize(); 
   
@@ -43,12 +43,15 @@ const createWindow = () => {
     width: 1300,
     height: 750,
     // resizable: false,
+    // transparent: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
     }
   });
 
+  cocineroWindow.setMenuBarVisibility( false );
+  cocineroWindow.maximize();
   cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
 
 };
@@ -65,6 +68,11 @@ ipcMain.on('event:hola', (event, mensaje) => {
 
 ipcMain.on('orden-levantada', ( evet, orden ) => {
   cocineroWindow.webContents.send('orden-levantada', orden);
+});
+
+ipcMain.on('orden-lista', ( event, data ) => {
+  console.log( data );
+  mainWindow.webContents.send('orden-lista', data);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

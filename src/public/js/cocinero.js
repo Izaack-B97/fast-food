@@ -1,33 +1,63 @@
+// TODO:  Reparar la info que trae de la bd
+
 const { getToServer } = require('./js/helpers/llamadas');
 const { ipcRenderer } = require('electron');
 const moment = require('moment');
 
 // Este metodo me dibujara toda 
-// la infor de la orden
+// la información de la orden
 const dibujarInfo = ( orden ) => {
+
     const infoOrden = document.querySelector('#info-orden');
 
-    infoOrden.innerHTML = '';
-    infoOrden.innerHTML += `
-        <li>
-            <p class="text-white h2 pull-left">
-                Descripci&oacute;n: 
-                <i>${orden[0].especificacion_orden}</i>
-            </p>
-        </li>
-    `;
+    getToServer(`ordenes/info-general/${ orden[0].id_orden }`)
+        .then(data => {    
 
+            console.log( data );
+            let tpl_productos = '';
+            data.forEach(o => {
+                tpl_productos += `
+                    <li class="my-1">
+                        <img src="${ o.url }" alt="${ o.nombre_producto } class=""/>
+                        <p class="text-white">
+                            ${ o.nombre_producto }
+                            , cantidad: ${ o.cantidad }
+                        </p>
+                    </li>
+                `;
+            })
+
+            console.log( tpl_productos );
+
+            infoOrden.innerHTML = '';
+            infoOrden.innerHTML += `
+                <li>
+                    <p class="text-white h4 pull-left">
+                        Descripci&oacute;n: 
+                        <i>${orden[0].especificacion_orden}</i>
+                    </p>
+                </li>
+                ${ tpl_productos }
+            
+            `;
+            
+
+        })
+        .catch( err => {
+            console.log( err );
+        });
 };
 
 (() => {
     console.log('--- cocinero.js ---');
-
+    let id_orden = 0;
     getToServer('ordenes')
         .then(ordenes => {
             console.log( ordenes );
 
             const tableOrdenes = document.querySelector('#table-ordenes');
             const tbody = tableOrdenes.querySelector('tbody');
+            const checkOrdenLista = document.querySelector('#checkOrdenLista');
 
             ordenes.sort().reverse();
             ordenes.forEach(orden => {
@@ -39,22 +69,22 @@ const dibujarInfo = ( orden ) => {
                 `
             });
 
-            const btnSiguiente =  document.querySelector('#btnSiguiente');
-            btnSiguiente.addEventListener('click', () => {
-                // ipcRenderer.send('event:hola', 'hola');
-                console.log('click en siguiente');
-            });
-
             const rows = tbody.querySelectorAll('tr');
             rows.forEach(row => {
                 row.addEventListener('click', () => {
+                    
+                    const id = parseInt( row.querySelector('td').textContent ); 
+                    const divOrden = document.querySelector('#numero-orden');
+                    const divHora = document.querySelector('#hora-orden');
+                    id_orden = id;
 
-                    const id = parseInt( row.querySelector('td').textContent );
                     getToServer(`ordenes/${ id }`)
                         .then(data => {
-                            // console.log( data );
-                            btnSiguiente.removeAttribute('disabled');
+                            const infoOrden = data[0];
                             dibujarInfo(data);
+                            divOrden.textContent = `#${ id }`;
+                            divHora.textContent = moment(infoOrden.created_at).format('hh:mm');
+                            checkOrdenLista.removeAttribute('disabled');
                         })
                         .catch(err => {
                             console.log( err );
@@ -110,6 +140,29 @@ const dibujarInfo = ( orden ) => {
 
                     });
             });
+            
+            const btnSiguiente =  document.querySelector('#btnSiguiente');
+            btnSiguiente.addEventListener('click', () => {
+                const areaAccionesOrdenen = document.querySelector('#acciones-orden');                
+                ipcRenderer.send('orden-lista', id_orden);
+
+                areaAccionesOrdenen.innerHTML += `
+                    <div id="notificacionOrdenLista" class="alert alert-success text-center mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                        La orden ${ id_orden } fue notificada al cajero satisfactoriamente
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    areaAccionesOrdenen.innerHTML = '';
+                }, 2500);
+
+            });
+
+            checkOrdenLista.addEventListener('click', (e) => {
+                if ( checkOrdenLista.checked ) btnSiguiente.removeAttribute('disabled');
+                else btnSiguiente.setAttribute('disabled', true);
+            });
+
         })
         .catch(err => {
             console.log( err );

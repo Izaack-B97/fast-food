@@ -122,20 +122,16 @@ module.exports = {
         try {
             const query = `
                 SELECT 
+                    partida.id_partida,
                     orden.id_orden, 
-                    orden.especificacion_orden, 
-                    partida.cantidad, 
-                    producto.nombre_producto 
-                FROM 
-                    orden, 
-                    producto, 
-                    partida 
-                WHERE 
-                    orden.id_orden = 1
-                AND 
-                    partida.id_producto=producto.id_producto;
-                AND
-                    partida.id_orden = 1;
+                    orden.especificacion_orden,
+                    orden.total_pagar,
+                    producto.nombre_producto
+                FROM partida 
+                INNER JOIN orden 
+                ON 
+                    orden.id_orden = ${ req.params.id }
+                INNER JOIN producto;                
             `;
 
             const conn = await getConnection();
@@ -149,7 +145,5 @@ module.exports = {
                 message: 'Error al obtener la partida con orden: ' + error
             })
         }
-    
-
     }
 };

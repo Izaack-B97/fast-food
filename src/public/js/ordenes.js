@@ -1,5 +1,7 @@
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
 const { remote, ipcRenderer } = require('electron');
+const spaceVenta = document.querySelector('#space-venta');
+
 
 (() => {
     console.log('--- ordenes.js ---');
@@ -8,6 +10,16 @@ const { remote, ipcRenderer } = require('electron');
         .then( productos => {
             console.log(productos);
             let orden = [];
+
+            const divOrden = document.querySelector('#orden');
+            getToServer('ordenes')
+                .then(ordenes => {
+                    console.log( ordenes );
+                    divOrden.textContent = ordenes[ordenes.length - 1].id_orden + 1;
+                })
+                .catch(err => {
+                    console.log( err );
+                })
 
             const tabla_productos = document.querySelector('#table-productos');
             const tbody = tabla_productos.childNodes.item(3);
@@ -94,8 +106,7 @@ const { remote, ipcRenderer } = require('electron');
             });
 
             btnVenta.addEventListener('click', () => {
-                
-                const spaceVenta = document.querySelector('#space-venta');
+
                 spaceVenta.innerHTML = `
                     <form class=" animate__animated animate__bounceIn">
                         <div class="form-group">
@@ -145,20 +156,24 @@ const { remote, ipcRenderer } = require('electron');
 
                             // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
                             const liProductos = listaOrdenes.querySelectorAll('li');
+                            console.log(liProductos )
                             liProductos.forEach(li => {
                                 productosGuardar.push({
                                     id_producto: parseInt( li.querySelector('input').value ),
                                     cantidad: 1,
                                     importe:  parseInt( li.querySelector('.price').value ),
-                                    id_orden: 2
+                                    id_orden: parseInt( divOrden.textContent )
                                 });
                             });
 
+                            console.log( productosGuardar );
+
                             // Guardamos en pártidas todos los productos
                             productosGuardar.forEach(productoPartida => {
+                                
                                 postToServer('partidas', productoPartida)
                                     .then(resp => {
-                                        // console.log( resp );
+                                        console.log( resp );
                                     })
                                     .catch( err => {
                                         console.log( err );
@@ -192,8 +207,31 @@ const { remote, ipcRenderer } = require('electron');
                 location.reload();
             });
 
+            // Mis eventos
             ipcRenderer.on('event:back-message', ( event, mensaje ) => {
                 console.log( mensaje );
+            });
+
+            ipcRenderer.on('orden-lista', ( event, id_orden ) => {
+
+                const areaOrdenesListas = spaceVenta.querySelector('#area-ordenes-listas');
+                
+                const notificacionOrdenLista = `
+                    <div class="alert alert-success alert-dismissible fade show mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                        La orden ${ id_orden } está lista
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+
+                areaOrdenesListas.innerHTML += notificacionOrdenLista;
+                
+                setTimeout(() => {
+                    const divsNotificacionsOrdenesListas =  document.querySelectorAll('.notificacion_orden');
+                    divsNotificacionsOrdenesListas.forEach(div => {
+                        div.classList.remove('animate__animated');
+                        div.classList.remove('animate__bounceInRight');
+                    });
+                }, 1000);              
             });
             
     }).catch( err => {

@@ -7,7 +7,8 @@ const {
     getOrden,
     getOrdenes,
     updateOrden,
-    deleteOrden
+    deleteOrden,
+    getTotalInfoOrdenes
 } = require('../controllers/orden-controller');
 
 router.route('/ordenes')
@@ -19,5 +20,6 @@ router.route('/ordenes/:id')
     .put( updateOrden )
     .delete( deleteOrden );
 
+router.get('/ordenes/info-general/:id', getTotalInfoOrdenes ); 
 
 module.exports = router;

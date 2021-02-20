@@ -17,6 +17,7 @@
         <img src="./img/logo.png" alt="logo" class="">
     </header>
     <main class="container mt-5">
+        <div id="acciones-orden"></div>
         <div class="row">
             <div id="area-ordenes" class="col-md-5">
                 <table id="table-ordenes" class="table bg-vino text-white text-center h3 table-bordered animate__animated animate__fadeIn">
@@ -31,7 +32,18 @@
             </div>
             <div class="col-md-7 bg-vino text-white text-center">
                 <header class="mt-2">
-                    <h1>ORDEN #1   &nbsp; &nbsp; &nbsp;    16:51</h1>
+                    <h1>
+                        ORDEN 
+                        <span id="numero-orden">#0</span>   
+                        &nbsp; &nbsp; &nbsp;    
+                        <span id="hora-orden">00:00</span>
+                    </h1>
+                    <form class="d-inline-flex">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="checkOrdenLista" disabled>
+                            <label class="form-check-label" for="exampleCheck1">Marcar orden como lista</label>
+                        </div>
+                    </form>
                 </header>
                 <ul class="list-group" id="info-orden">
                     
@@ -42,6 +54,8 @@
             <button id="btnSiguiente" class="btn btn-vino py-3 btn-block" disabled>SIGUIENTE</button>
         </div>
     </main>
+
+    <!-- Scritps -->
     <script src="./js/cocinero.js"></script>
 </body>
 </html>

@@ -32,7 +32,6 @@ module.exports = {
 
     getOrden: async ( req, res ) => {
         try {
-            
             const conn = await getConnection();
             const result = await conn.query(`SELECT * FROM orden WHERE id_orden = ${ req.params.id };`);
 
@@ -104,6 +103,36 @@ module.exports = {
                 status: 'failed',
                 message: 'Error al eliminar producto: ' + error
             });
+        }
+    },
+
+    getTotalInfoOrdenes: async ( req, res ) => {
+        try {
+            const query = `
+                SELECT 
+                    orden.id_orden, 
+                    orden.especificacion_orden, 
+                    partida.cantidad, 
+                    producto.nombre_producto,
+                    producto.url 
+                FROM orden 
+                JOIN partida
+                    ON orden.id_orden=partida.id_orden
+                JOIN producto 
+                    ON partida.id_producto=producto.id_producto
+                WHERE orden.id_orden = ${ req.params.id };  
+            `;
+
+            const conn = await getConnection();
+            const result = await conn.query( query );
+
+            res.json( result );
+
+        } catch (error) {
+            res.json({
+                status: 'failed',
+                message: 'Error al obtener la info genetal con orden: ' + error
+            })
         }
     }
 };
