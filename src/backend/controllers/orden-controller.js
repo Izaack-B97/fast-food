@@ -134,5 +134,38 @@ module.exports = {
                 message: 'Error al obtener la info genetal con orden: ' + error
             })
         }
+    },
+
+    getAllOrdenesWithInfo: async ( req, res ) => {
+        try {
+            const query = `
+                SELECT 
+                    orden.id_orden, 
+                    orden.especificacion_orden, 
+                    orden.created_at as creacion_orden,
+                    orden.total_pagar as total_orden,
+                    partida.cantidad, 
+                    producto.nombre_producto,
+                    producto.precio_producto
+                FROM orden 
+                JOIN partida
+                    ON orden.id_orden=partida.id_orden
+                JOIN producto 
+                    ON partida.id_producto=producto.id_producto 
+            `;
+
+            console.log('eeyeyey')
+
+            const conn = await getConnection();
+            const result = await conn.query( query );
+
+            res.json( result );
+
+        } catch (error) {
+            res.json({
+                status: 'failed',
+                message: 'Error al obtener la info general de todas las ordenes: ' + error
+            })
+        }
     }
 };

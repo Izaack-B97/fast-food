@@ -11,13 +11,24 @@
     height: 30px;
     border-radius: 50%;
     padding-top: 3px;
+    text-align: center !important;
 }
 
-.estrella {
-    margin-left: 30px;
+.estrellita {
+    margin-left: 10px;
+    width: 80px;
 }
 
 .parrafo-registro {
     margin-left: 10px;
     text-align: start;
+}
+
+
+#lista-ventas li{
+    text-align: start;
+}
+
+#lista-ventas p {
+    margin-left: 50px !important;
 }

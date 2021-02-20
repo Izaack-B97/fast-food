@@ -21,6 +21,7 @@ table tbody tr:hover  {
 #info-orden {
      height: 300px;
      overflow-y: auto;
+     overflow-x: hidden;
 }
 
 #info-orden img{

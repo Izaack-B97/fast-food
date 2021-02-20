@@ -14,51 +14,37 @@ const render_productos = ( productos ) => {
 }
 
 (() => {
-    getToServer('ordenes')
-        .then(ordenes => {
-            // console.log( ordenes );
+    getToServer('ordenes/informacion/general/todas')
+        .then(data => {
+            console.log( data )
 
-            // Mandamos a llamar los productos
-            getToServer('ordenes/todas/productos')
-                .then(productos => {    
-                    // console.log( productos ) 
+            const listaVentas = document.querySelector('#lista-ventas');
 
-                    const listaVentas = document.querySelector('#lista-ventas');
+            // Manipulamos la data
+            data.sort().reverse();
+            
+            data.forEach(orden => {
+                listaVentas.innerHTML += `
+                    <li>
+                        <div>
+                            <div class="bg-vino icon text-white d-inline-block">
+                                ${ orden.id_orden }
+                            </div>
+                            <img src="./img/estrella.png" alt="estrellita" class="estrellita mb-1">
+                            <p class="d-inline-block pt-5">
+                                <small>
+                                    <b>${ moment( orden.created_at ).format('dddd , DD-MM-YYYY, hh:mm a') }</b>
+                                </small>
+                                <small class="d-block">venta: ${ orden.nombre_producto }, cantidad: ${ orden.cantidad }, total: $ ${ orden.total_orden }.</small>
+                            </p>
+                        </div>
+                    </li>
+                `;  
+            });
+        
 
-                    // Manipulamos la data
-                    ordenes.sort().reverse();
-                    ordenes.forEach(orden => {
-                        const productosOrden = productos.filter(o => o.id_orden === orden.id_orden);
-                        const cadenaProductos = render_productos( productosOrden );
-                        
-                        if (orden.id_orden == 41) {
-                            console.log(cadenaProductos);
-                        }
-
-                        // TODO:  No muestra los  productos  de la orden
-
-                        listaVentas.innerHTML += `
-                            <li class="mt-2">     
-                                <div>
-                                    <div class="bg-vino icon text-white d-inline-block">
-                                        ${ orden.id_orden }
-                                    </div>
-                                    <img src="./img/estrella.png" alt="extrellita" class="d-inline-block estrella">
-                                    <p class="d-inline-block parrafo-registro">
-                                        <small class="d-block ">
-                                            <b>${ moment( orden.create_at ).format('dddd ,DD-MM-YYYY, h:mm a ') }</b>
-                                        </small>
-                                        <small class="d-block">
-                                            venta: <span id="productos-venta"></span>
-                                        </small>
-                                    </p>
-                                </div>
-                            </li>
-                        `;   
-                    });
-                })
-        })
-        .catch(err => {
-            console.log( err )
-        });
+    })
+    .catch(err => {
+        console.log( err );
+    })
 })();

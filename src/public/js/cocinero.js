@@ -1,23 +1,22 @@
-// TODO:  Reparar la info que trae de la bd
-
 const { getToServer } = require('./js/helpers/llamadas');
 const { ipcRenderer } = require('electron');
 const moment = require('moment');
+
+const infoOrden = document.querySelector('#info-orden'); // Area donde se dibujara la info de la orden
+
 
 // Este metodo me dibujara toda 
 // la información de la orden
 const dibujarInfo = ( orden ) => {
 
-    const infoOrden = document.querySelector('#info-orden');
-
     getToServer(`ordenes/info-general/${ orden[0].id_orden }`)
         .then(data => {    
 
-            console.log( data );
+            // console.log( data );
             let tpl_productos = '';
             data.forEach(o => {
                 tpl_productos += `
-                    <li class="my-1">
+                    <li class="my-1 animate__animated animate__bounceInLeft">
                         <img src="${ o.url }" alt="${ o.nombre_producto } class=""/>
                         <p class="text-white">
                             ${ o.nombre_producto }
@@ -27,7 +26,7 @@ const dibujarInfo = ( orden ) => {
                 `;
             })
 
-            console.log( tpl_productos );
+            // console.log( tpl_productos );
 
             infoOrden.innerHTML = '';
             infoOrden.innerHTML += `
@@ -97,7 +96,7 @@ const dibujarInfo = ( orden ) => {
                 console.log(data.id);
                 getToServer(`ordenes/${ data.id }`)
                     .then(orden => {
-                        console.log( orden );
+                        // console.log( orden );
                         // Creamos los nodos
                         const tr = document.createElement('tr');
                         const td_orden = document.createElement('td');
@@ -122,8 +121,12 @@ const dibujarInfo = ( orden ) => {
                             getToServer(`ordenes/${ id }`)
                                 .then(data => {
                                     // console.log( data );
-                                    btnSiguiente.removeAttribute('disabled');
                                     dibujarInfo( data );
+                                    const divOrden = document.querySelector('#numero-orden');
+                                    const divHora = document.querySelector('#hora-orden');
+                                    divOrden.textContent = `#${ id }`;
+                                    divHora.textContent = moment(data.created_at).format('hh:mm');
+                                    checkOrdenLista.removeAttribute('disabled');
 
                                 })
                                 .catch(err => {
@@ -145,12 +148,22 @@ const dibujarInfo = ( orden ) => {
             btnSiguiente.addEventListener('click', () => {
                 const areaAccionesOrdenen = document.querySelector('#acciones-orden');                
                 ipcRenderer.send('orden-lista', id_orden);
-
+                
                 areaAccionesOrdenen.innerHTML += `
                     <div id="notificacionOrdenLista" class="alert alert-success text-center mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
                         La orden ${ id_orden } fue notificada al cajero satisfactoriamente
                     </div>
                 `;
+
+                infoOrden.innerHTML = '';
+                infoOrden.innerHTML += `
+                    <li class="animate__animated animate__bounceInRight">
+                        <p class="lead">Siguiente orden porfavor !</p>
+                    </li>
+                `;
+                checkOrdenLista.checked = false;
+                checkOrdenLista.setAttribute('disabled', false);
+                btnSiguiente.setAttribute('disabled', false);
 
                 setTimeout(() => {
                     areaAccionesOrdenen.innerHTML = '';
