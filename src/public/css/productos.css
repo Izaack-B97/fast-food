@@ -18,3 +18,11 @@ form{
     width: 95%;
 }
 
+#notificacion {
+    width: 400px;
+    /* height: 100px; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+    /* background: red; */
+}

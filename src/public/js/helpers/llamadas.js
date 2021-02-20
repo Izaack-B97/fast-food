@@ -19,9 +19,9 @@ module.exports = {
         }
     },
 
-    putToServer: async ( endpoint, data ) => {
+    putToServer: async ( endpoint, datos ) => {
         try {
-            const { data } = await axios.put(`http://localhost:3030/server/${ endpoint }`, data);
+            const { data } = await axios.put(`http://localhost:3030/server/${ endpoint }`, datos);
             return data;
         } catch (error) {
             return error;
