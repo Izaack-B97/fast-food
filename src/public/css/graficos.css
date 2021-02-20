@@ -1,0 +1,11 @@
+#myChart {
+    width: 300px !important;
+    height: 300px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+#myChartDogos, #myChartBebidas, #myChartMomias, #myChartHamburguesas {
+    width: 200px !important;
+    height: 100px !important;
+};
