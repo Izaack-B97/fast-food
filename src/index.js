@@ -6,7 +6,7 @@ const path = require('path');
 require('./backend/app');
 // Reload --> Sirve para refrescar cualquier cambio 
 // en el front
-require('electron-reload')(__dirname);
+// require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
