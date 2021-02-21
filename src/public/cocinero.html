@@ -16,8 +16,9 @@
     <header class="mx-5 text-center">
         <img src="./img/logo.png" alt="logo" class="">
     </header>
-    <main class="container mt-5">
-        <div id="acciones-orden"></div>
+    <main class="container ">
+        <div id="acciones-orden" class="pull-right" style="width: 50%;"></div>
+        <div class="clearfix"></div>
         <div class="row">
             <div id="area-ordenes" class="col-md-5">
                 <table id="table-ordenes" class="table bg-vino text-white text-center h3 table-bordered animate__animated animate__fadeIn">
@@ -30,31 +31,43 @@
                     <tbody> <!--Aqui iran mis ordenes dinamicas--> </tbody>
                 </table>
             </div>
-            <div class="col-md-7 bg-vino text-white text-center">
+            <div class="col-md-7 bg-vino text-white">
                 <header class="mt-2">
-                    <h1>
+                    <h1 class="d-inline-block">
                         ORDEN 
                         <span id="numero-orden">#0</span>   
-                        &nbsp; &nbsp; &nbsp;    
+                        &nbsp;    
                         <span id="hora-orden">00:00</span>
                     </h1>
-                    <form class="d-inline-flex">
-                        <div class="mb-3 form-check">
+                    <form class="d-inline-block pull-right mt-3">
+                        <div class="ml-3 form-check">
                             <input type="checkbox" class="form-check-input" id="checkOrdenLista" disabled>
                             <label class="form-check-label" for="exampleCheck1">Marcar orden como lista</label>
                         </div>
                     </form>
                 </header>
-                <ul class="list-group" id="info-orden">
-                    <li>
-                        <p class="lead">Porfavor seleccione la orden a preparar</p>
+                <ul class="list-group px-2 list-unstyled" id="info-orden">
+                    <li class="my-5">
+                        <p class="lead text-center">Porfavor seleccione la orden a preparar</p>
                     </li>
                 </ul>
+                <form class="form-group pb-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <textarea name="messages" id="taMessages" rows="5" class="form-control" placeholder="Messages..." disabled></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="inputMessages" class="form-control mt-3" placeholder="¿Cuál es tú mensaje?..."/>
+                            <a id="btnMandarMensaje" class="btn btn-secondary btn-block py-3 mt-3">Enviar mensaje</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-md-12 mt-4 mx-0">
             <button id="btnSiguiente" class="btn btn-vino py-3 btn-block" disabled>NOTIFICAR AL COCINERO</button>
         </div>
+
     </main>
 
     <!-- Scritps -->

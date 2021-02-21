@@ -71,8 +71,18 @@ ipcMain.on('orden-levantada', ( evet, orden ) => {
 });
 
 ipcMain.on('orden-lista', ( event, data ) => {
-  console.log( data );
+  // console.log( data );
   mainWindow.webContents.send('orden-lista', data);
+});
+
+ipcMain.on('chat-cocinero', ( event, data ) => {
+  // console.log( data );
+  cocineroWindow.webContents.send('chat-cocinero', data);
+});
+
+ipcMain.on('chat-cajero', ( event, data ) => {
+  // console.log( data );
+  mainWindow.webContents.send('chat-cajero', data);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

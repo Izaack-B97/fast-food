@@ -2,7 +2,7 @@
     width: 800px;
     margin-left: auto;
     margin-right: auto;
-    height: 500px;
+    height: 400px;
     overflow: auto;
 }
 
@@ -23,7 +23,6 @@
     margin-left: 10px;
     text-align: start;
 }
-
 
 #lista-ventas li{
     text-align: start;

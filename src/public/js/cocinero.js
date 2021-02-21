@@ -19,6 +19,7 @@ const dibujarInfo = ( orden ) => {
                     <li class="my-1 animate__animated animate__bounceInLeft">
                         <img src="${ o.url }" alt="${ o.nombre_producto } class=""/>
                         <p class="text-white">
+                            &nbsp; 
                             ${ o.nombre_producto }
                             , cantidad: ${ o.cantidad }
                         </p>
@@ -170,12 +171,38 @@ const dibujarInfo = ( orden ) => {
                 }, 2500);
 
             });
-
+            
             checkOrdenLista.addEventListener('click', (e) => {
                 if ( checkOrdenLista.checked ) btnSiguiente.removeAttribute('disabled');
                 else btnSiguiente.setAttribute('disabled', true);
             });
 
+            // Captamos los mensajes del cajero
+            const taMessages = document.querySelector('#taMessages');
+            const btnMandarMensaje = document.querySelector('#btnMandarMensaje');
+            const inputMessage = document.querySelector('#inputMessages');
+            ipcRenderer.on('chat-cocinero', ( event, data ) => {
+                taMessages.value += `Cajero: ${ data.message }. ${ data.hora } \n`;
+                const div = document.querySelector('#acciones-orden');
+                div.innerHTML = `
+                <div class="alert alert-primary alert-dismissible fade show mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                    El cocinero dice: ${ data.message } ${ data.hora }
+                </div>
+                `
+                setTimeout(() => {
+                    div.innerHTML = '';
+                }, 2000);
+
+            });
+
+            btnMandarMensaje.addEventListener('click', () => {
+                const hoy = new Date();
+                if (inputMessage.value.lenght !== 0) {
+                    taMessages.value += `Yo: ${ inputMessage.value }. ${ moment( hoy ).format('hh:mm a') } \n`;
+                    ipcRenderer.send('chat-cajero', { message: inputMessage.value, hora: moment( hoy ).format('hh:mm a') });
+                    inputMessage.value = '';
+                }
+            })
         })
         .catch(err => {
             console.log( err );

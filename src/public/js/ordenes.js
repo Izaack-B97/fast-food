@@ -1,7 +1,7 @@
 const { getToServer, postToServer } = require('./js/helpers/llamadas'); // Tiene que ser relativo al html
 const { remote, ipcRenderer } = require('electron');
 const spaceVenta = document.querySelector('#space-venta');
-
+const moment = require('moment');
 
 (() => {
     console.log('--- ordenes.js ---');
@@ -232,6 +232,33 @@ const spaceVenta = document.querySelector('#space-venta');
                         div.classList.remove('animate__bounceInRight');
                     });
                 }, 1000);              
+            });
+            
+            const btnMandarMensaje = document.querySelector('#btnMandarMensaje');
+            const taMessajes = document.querySelector('#taMessages');
+            const inputMessages = document.querySelector('#inputMessages');
+            
+            btnMandarMensaje.addEventListener('click', () => {
+                if ( inputMessages.value.length !== 0 ) {
+                    console.log( inputMessages.value.length )
+                    const message = inputMessages.value;
+                    const hoy = new Date();
+                    ipcRenderer.send('chat-cocinero', { message, hora: moment( hoy ).format('hh:mm a') });
+                    inputMessages.value = '';
+                    taMessajes.value += `Yo: ${ message }. ${ moment( hoy ).format('hh:mm a') } \n`;
+                }
+            });
+            
+            // Captamos los mensajes del cocinero
+            ipcRenderer.on('chat-cajero', (event, data) => {
+                taMessajes.value += `Cocinero: ${ data.message }. ${ data.hora } \n`;
+                const div = document.querySelector('#notificacion-chat');
+                div.innerHTML = `
+                <div class="alert alert-primary alert-dismissible fade show mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                    El cocinero dice: ${ data.message } ${ data.hora }
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                `
             });
             
     }).catch( err => {
