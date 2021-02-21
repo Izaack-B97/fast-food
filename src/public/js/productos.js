@@ -4,7 +4,7 @@ const { getToServer, putToServer } = require('./js/helpers/llamadas');
 
     getToServer('productos')
     .then(productos => {
-        console.log( productos )
+        // console.log( productos )
         const mySpace = document.querySelector('#my-space');
         const divNotificacion = document.querySelector('#notificacion');
 
@@ -36,7 +36,7 @@ const { getToServer, putToServer } = require('./js/helpers/llamadas');
                 </div>
             `;
         });
-        
+
         const btnGuardar = document.querySelector('#btnGuardar');
         btnGuardar.addEventListener('click', () => {
             const forms = document.querySelectorAll('form');
@@ -59,9 +59,9 @@ const { getToServer, putToServer } = require('./js/helpers/llamadas');
             });
 
             divNotificacion.innerHTML += `
-            <div id="notificacionOrdenLista" class="alert alert-success text-center mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
-                Todo se guardo satisfactoriamente
-            </div>
+                <div id="notificacionOrdenLista" class="alert alert-success text-center mt-3 animate__animated animate__bounceInRight notificacion_orden" role="alert">
+                    Todo se guardo satisfactoriamente
+                </div>
             `;
 
             setTimeout(() => {

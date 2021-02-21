@@ -46,6 +46,14 @@ body {
     visibility: hidden;
 }
 
+textarea {
+    resize: none;
+}
+
+.text-left {
+    text-align: start;
+}
+
 @media( min-width: 1200px ) {
   
     .full-expand {

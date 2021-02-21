@@ -3,7 +3,6 @@
  * TODO: Hacer las validaciones que faltan para los tipos de datos que se mandan
  */
 
-const { query } = require('express');
 const { getConnection } = require('../database');
 
 module.exports = {
