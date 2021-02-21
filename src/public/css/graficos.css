@@ -5,7 +5,24 @@
     margin-right: auto !important;
 }
 
-#myChartDogos, #myChartBebidas, #myChartMomias, #myChartHamburguesas {
+#myChartDogos, #myChartPercherones, #myChartEspecialidades, #myChartHamburguesas {
     width: 200px !important;
     height: 100px !important;
 };
+
+@media (min-width: 1300px) {
+
+    body {
+        background: red;
+    }
+    
+    /* #myChart {
+        width: 500px !important;
+        height: 500px !important;
+    }
+
+    #myChartDogos, #myChartPercherones, #myChartEspecialidades, #myChartHamburguesas {
+        width: 300px !important;
+        height: 200px !important;
+    }; */
+}

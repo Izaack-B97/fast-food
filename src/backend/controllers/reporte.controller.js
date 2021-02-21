@@ -107,7 +107,7 @@ module.exports = {
 
             const query = `
                 SELECT 
-                    SUM(cantidad), 
+                    SUM(cantidad) as cantidad, 
                     producto.id_tc 
                 FROM partida 
                 JOIN producto 
