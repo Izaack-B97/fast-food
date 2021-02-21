@@ -43,7 +43,7 @@ const createWindow = () => {
     width: 1300,
     height: 750,
     // resizable: false,
-    // transparent: true,
+    transparent: true,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
