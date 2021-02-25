@@ -26,3 +26,21 @@ form{
     margin-bottom: 0px;
     /* background: red; */
 }
+
+#lista-productos-eliminar {
+    height: 500px;
+    overflow: auto;
+}
+
+#lista-productos-eliminar img{
+    width: 100px;
+    height: 70px;
+}
+
+#lista-productos-eliminar p {
+    margin-left: 10px;
+}
+
+.form-check-input {
+    cursor: pointer;
+}

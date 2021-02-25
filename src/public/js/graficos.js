@@ -18,7 +18,7 @@ const { getToServer } = require('./js/helpers/llamadas');
             // Estadisticas de los dogos
             getToServer('reportes/dogos')
                 .then(data => {
-                    const cantidad = data[0].cantidad;
+                    const cantidad = data[0].cantidad || 0;
                     const divGraficaDogos = document.querySelector('#myChartDogos');
                     const totalDogo = document.querySelector('#totalDogos').textContent = cantidad;
                     render_grafico( divGraficaDogos, 'doughnut', ['Dogos'],  [ cantidad, 10 ]);
@@ -30,7 +30,7 @@ const { getToServer } = require('./js/helpers/llamadas');
             // Estadisticas de las hamburguesas
             getToServer('reportes/hamburguesas')
                 .then(data => {
-                    const cantidad = data[0].cantidad;
+                    const cantidad = data[0].cantidad || 0;
                     const totalHamburguesas = document.querySelector('#totalHamburguesas').textContent = cantidad;
                     const divGraficaHamburguesas = document.querySelector('#myChartHamburguesas');
                     render_grafico( divGraficaHamburguesas, 'doughnut', ['Hamburguesas'],  [ cantidad, 10 ]);
@@ -43,7 +43,8 @@ const { getToServer } = require('./js/helpers/llamadas');
             // Estadisticas de las especialidades
             getToServer('reportes/especialidades')
                 .then(data => {
-                    const cantidad = data[0].cantidad;
+                    console.log( data )
+                    const cantidad = data[0].cantidad || 0;
                     const divGraficaEspecialidades = document.querySelector('#myChartEspecialidades');
                     const totalEspecialidades = document.querySelector('#totalEspecialidades').textContent = cantidad;
                     render_grafico( divGraficaEspecialidades, 'doughnut', ['Especialidades'],  [ cantidad, 10 ]);
@@ -55,7 +56,7 @@ const { getToServer } = require('./js/helpers/llamadas');
             // Estadisticas de los perches
             getToServer('reportes/percherones')
                 .then(data => {
-                    const cantidad = data[0].cantidad ? cantidad : 0;
+                    const cantidad = data[0].cantidad || 0;
                     const divGraficaEspecialidades = document.querySelector('#myChartPercherones');
                     const totalPerches = document.querySelector('#totalPercherones').textContent = cantidad;    
                     render_grafico( divGraficaEspecialidades, 'doughnut', ['Percherones'],  [ cantidad , 10 ]);

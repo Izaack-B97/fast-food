@@ -6,7 +6,7 @@ const path = require('path');
 require('./backend/app');
 // Reload --> Sirve para refrescar cualquier cambio 
 // en el front
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -21,7 +21,7 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1300,
     height: 750,
-    // resizable: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
@@ -30,11 +30,10 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
-  
+
   mainWindow.setMenuBarVisibility( false );
   // mainWindow.setMenu( null )
   mainWindow.maximize(); 
-  
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
@@ -42,18 +41,24 @@ const createWindow = () => {
   cocineroWindow = new BrowserWindow({
     width: 1300,
     height: 750,
-    // resizable: false,
-    transparent: true,
+    resizable: false,
+    // transparent: true,
+    // closable: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
     }
   });
 
+  // cocineroWindow.setMenu(  null );
   cocineroWindow.setMenuBarVisibility( false );
   cocineroWindow.maximize();
   cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
 
+  // Cerramos toda la app cuando se cierre la ventana principal
+  mainWindow.on('close', () => {
+    // cocineroWindow.webContents.send('cerrando-app', true);
+  })
 };
 
 // This method will be called when Electron has finished
@@ -94,6 +99,7 @@ app.on('window-all-closed', () => {
   }
 });
 
+
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -113,6 +119,11 @@ const newNotification = ( title, mensaje ) => {
   myNotification.show();
 };
 
+const hola = () => {
+  console.log('Hola');
+}
+
 module.exports = {
-  newNotification
+  newNotification,
+  hola
 };

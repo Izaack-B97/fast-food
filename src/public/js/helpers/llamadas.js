@@ -28,7 +28,7 @@ module.exports = {
         }
     },
 
-    deleteToServer: async () => {
+    deleteToServer: async ( endpoint ) => {
         try {
             const { data } = await axios.delete(`http://localhost:3030/server/${ endpoint }`);
             return data;
