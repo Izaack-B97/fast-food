@@ -1,6 +1,6 @@
 {
   "name": "fast-food",
-  "productName": "Fastfood",
+  "productName": "Fast food",
   "version": "1.0.0",
   "description": "Aplicacion de escritorio para negocios de comida rapida",
   "main": "src/index.js",
@@ -21,7 +21,7 @@
       "requestedExecutionLevel": "requireAdministrator"
     },
     "nsis": {
-      "uninstallDisplayName": "Fastfood",
+      "uninstallDisplayName": "Fast food",
       "license": "",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true

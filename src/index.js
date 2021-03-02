@@ -33,7 +33,7 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
 
   // mainWindow.setMenuBarVisibility( false );
-  mainWindow.setMenu( null )
+  // mainWindow.setMenu( null )
   mainWindow.maximize(); 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();

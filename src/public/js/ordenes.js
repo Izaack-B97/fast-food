@@ -12,6 +12,14 @@ const moment = require('moment');
             let orden = [];
 
             const divOrden = document.querySelector('#orden');
+            const divHora = document.querySelector('#hora-orden');
+            divHora.textContent = moment(Date.now()).format('hh:mm a');
+
+            // Mostramos la hora cuando cambie cada 60s
+            setInterval(() => {
+                divHora.textContent = moment(Date.now()).format('hh:mm a');
+            }, 60000);
+
             getToServer('ordenes')
                 .then(ordenes => {
                     console.log( ordenes );
