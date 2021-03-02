@@ -209,12 +209,12 @@ const dibujarInfo = ( orden ) => {
         })
 
         // Detectamos que se cerro la ventana principal
-        ipcRenderer.on('cerrando-app', ( event, data ) => {
-            console.log( data )
-            const { remote, app } = require('electron');
-            const currentWindow = remote.getCurrentWindow();
-            const main = remote.require('./index.js');
-            currentWindow.close();
-            app.quit();
-        })
+        // ipcRenderer.on('cerrando-app', ( event, data ) => {
+        //     console.log( data )
+        //     const { remote, app } = require('electron');
+        //     const currentWindow = remote.getCurrentWindow();
+        //     const main = remote.require('./index.js');
+        //     currentWindow.close();
+        //     app.quit();
+        // })
 })();

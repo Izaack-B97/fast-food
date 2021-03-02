@@ -6,7 +6,7 @@ const path = require('path');
 require('./backend/app');
 // Reload --> Sirve para refrescar cualquier cambio 
 // en el front
-require('electron-reload')(__dirname);
+// require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -19,9 +19,10 @@ let cocineroWindow;
 const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1300,
+    width: 1350,
     height: 750,
-    resizable: false,
+    minWidth: 1350,
+    minHeight: 750,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
@@ -31,8 +32,8 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
 
-  mainWindow.setMenuBarVisibility( false );
-  // mainWindow.setMenu( null )
+  // mainWindow.setMenuBarVisibility( false );
+  mainWindow.setMenu( null )
   mainWindow.maximize(); 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -44,20 +45,22 @@ const createWindow = () => {
     resizable: false,
     // transparent: true,
     // closable: false,
+    frame: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
     }
   });
 
-  // cocineroWindow.setMenu(  null );
-  cocineroWindow.setMenuBarVisibility( false );
-  cocineroWindow.maximize();
+  cocineroWindow.setMenu(  null );
+  // cocineroWindow.setMenuBarVisibility( false );
+  // cocineroWindow.maximize();
   cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
 
   // Cerramos toda la app cuando se cierre la ventana principal
   mainWindow.on('close', () => {
-    // cocineroWindow.webContents.send('cerrando-app', true);
+    console.log('Cerrando aplicacion')
+    app.quit() // Cierra toda la aplicacion
   })
 };
 
@@ -91,7 +94,7 @@ ipcMain.on('chat-cajero', ( event, data ) => {
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
+// for applications and the  ir menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

@@ -8,7 +8,7 @@ const moment = require('moment');
 
     getToServer('productos')
         .then( productos => {
-            console.log(productos);
+            // console.log(productos);
             let orden = [];
 
             const divOrden = document.querySelector('#orden');
@@ -108,7 +108,7 @@ const moment = require('moment');
             btnVenta.addEventListener('click', () => {
 
                 spaceVenta.innerHTML = `
-                    <form class=" animate__animated animate__bounceIn">
+                    <form class=" animate__animated animate__bounceInDown">
                         <div class="form-group">
                             <textarea id="descripcion" name="descripcion" class="form-control" rows="10" placeholder="Descripción de la orden" autofocus></textarea>
                         </div>

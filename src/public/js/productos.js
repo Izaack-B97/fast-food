@@ -2,7 +2,7 @@ const { getToServer, putToServer, deleteToServer } = require('./js/helpers/llama
 
 (() => {
 
-    getToServer('productos')
+getToServer('productos')
     .then(productos => {
         console.log( productos )
         const mySpace = document.querySelector('#my-space');
@@ -12,11 +12,11 @@ const { getToServer, putToServer, deleteToServer } = require('./js/helpers/llama
             mySpace.innerHTML += `
                 <div class="col-3 mt-2">
                     <div class="mx-auto">
-                        <img src="${ producto.url }" alt="dogo">
+                    <img src="${ producto.url }" alt="dogo">
                     </div>
                     <form class="mx-auto mt-2 form-group">
                         <div class="form-group">
-                            <input name="id" type="text" class="form-control" placeholder="ID" value="${ producto.id_producto }" disabled>
+                        <input name="id" type="text" class="form-control" placeholder="ID" value="${ producto.id_producto }" disabled>
                         </div>
                         <div class="form-group">
                             <select name="tipo_comida" class="form-control">
