@@ -1,10 +1,10 @@
-const { getToServer, putToServer } = require('./js/helpers/llamadas');
+const { getToServer, putToServer, deleteToServer } = require('./js/helpers/llamadas');
 
 (() => {
 
-    getToServer('productos')
+getToServer('productos')
     .then(productos => {
-        // console.log( productos )
+        console.log( productos )
         const mySpace = document.querySelector('#my-space');
         const divNotificacion = document.querySelector('#notificacion');
 
@@ -12,11 +12,11 @@ const { getToServer, putToServer } = require('./js/helpers/llamadas');
             mySpace.innerHTML += `
                 <div class="col-3 mt-2">
                     <div class="mx-auto">
-                        <img src="${ producto.url }" alt="dogo">
+                    <img src="${ producto.url }" alt="dogo">
                     </div>
                     <form class="mx-auto mt-2 form-group">
                         <div class="form-group">
-                            <input name="id" type="text" class="form-control" placeholder="ID" value="${ producto.id_producto }" disabled>
+                        <input name="id" type="text" class="form-control" placeholder="ID" value="${ producto.id_producto }" disabled>
                         </div>
                         <div class="form-group">
                             <select name="tipo_comida" class="form-control">
@@ -68,6 +68,66 @@ const { getToServer, putToServer } = require('./js/helpers/llamadas');
                 location.reload();
             }, 1500);
         });
+
+        
+        const btnBorrar = document.querySelector('#btnBorrar');
+        const btnConfirmarEliminacion = document.querySelector('#btnConfirmarEliminacion');
+        const listaProductosEliminar = document.querySelector('#lista-productos-eliminar');
+
+        btnBorrar.addEventListener('click', () => {
+            btnConfirmarEliminacion.removeAttribute('disabled');
+            productos.forEach(producto => {
+                listaProductosEliminar.innerHTML += `
+                    <li class="my-1">
+                        <img src="${ producto.url }" alt="${ producto.nombre_producto }" class="d-inline-block">
+                        <p class="lead d-inline-block">${ producto.nombre_producto }</p>
+                        <div class="form-check d-inline-block pull-right py-3">
+                            <input type="hidden" value="${ producto.id_producto }" class="id">
+                            <input type="checkbox" class="form-check-input eliminar">
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                `;
+            });
+        });
+
+        btnConfirmarEliminacion.addEventListener('click', () => {
+            const arrayInputs = listaProductosEliminar.querySelectorAll('.form-check');
+            const productosIdEliminar = [];
+            arrayInputs.forEach(div => {
+                const check =  div.querySelector('.eliminar');
+                if ( check.checked ) {
+                    const id = parseInt( div.querySelector('.id').value );
+                    productosIdEliminar.push( id );
+                    check.setAttribute('disabled', true);   
+                }
+            })
+
+            if ( productosIdEliminar.length === 0 ) {
+                alert('Aún no haz seleccionado ningún producto a eliminar')
+            } else {
+                productosIdEliminar.forEach(id => {
+                    deleteToServer(`productos/${ id }`)
+                        .then(resp => {
+                            // console.log( resp ) 
+                        })
+                        .catch(err => {
+                            console.log( err );
+                        });
+                });
+
+                const notificacionDelete = document.querySelector('#notificacionDelete');
+                notificacionDelete.textContent = 'Productos eliminados satisfactoriamente ✔';
+                notificacionDelete.classList.add('animate__animated');
+                notificacionDelete.classList.add('animate__fadeInRight');
+                notificacionDelete.classList.add('text-success');
+
+                setTimeout(() => {
+                    location.reload();
+                }, 1300);
+            }
+
+        })
 
     })
     .catch(err => {
