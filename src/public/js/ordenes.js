@@ -120,24 +120,121 @@ const moment = require('moment');
                         <div class="form-group">
                             <textarea id="descripcion" name="descripcion" class="form-control" rows="10" placeholder="Descripción de la orden" autofocus></textarea>
                         </div>
-                        <div class="form-group mt-5">
-                            <a type="text" id="btnCerrarOrden" class="btn btn-success btn-block py-3">Guardar orden</a>
+                        <div class="form-group mt-2">
+                            <h5 class="pull-left">Pagar</h5>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                            <button id="btnEfectivo" type="button" class="btn btn-success py-3">EFECTIVO</button>
+                            <button id="btnTarjeta" type="button" class="btn btn-success py-3">TARJETA</button>
+                            <button id="btnMixto" type="button" class="btn btn-success py-3">MIXTO</button>
+                        </div>
+                        <div id="tipoPago" class="form-group my-2"></div>
+                        <hr />
+                        <div class="form-group mt-2">
+                            <a id="btnCerrarOrden" class="btn btn-success btn-block py-3">Guardar orden</a>
                         </div>
                         <div class="form-group mt-1">
-                            <a type="text" id="btnCancelarOrden" class="btn btn-danger btn-block py-3">Cancelar orden</a>
+                            <a id="btnCancelarOrden" class="btn btn-danger btn-block py-3">Cancelar orden</a>
                         </div>
                     </form>
                 `;
 
                 const btnGuardarOrden = document.querySelector('#btnCerrarOrden');
                 const btnCancelarOrden = document.querySelector('#btnCancelarOrden');
+                const btnEfectivo =  document.querySelector('#btnEfectivo');
+                const btnTarjeta =  document.querySelector('#btnTarjeta');
+                const btnMixto =  document.querySelector('#btnMixto');
+                const tipoPago = spaceVenta.querySelector('#tipoPago')
                 // const btnCancelarVenta = document.querySelector('#btnCancelarVenta');
 
+                btnEfectivo.addEventListener('click', () => {
+                    
+                    for (let i = 0; i < btnTarjeta.classList.length; i++) {
+                        if ( btnTarjeta.classList[i] === 'btn-primary' ) {
+                            btnTarjeta.classList.remove('btn-primary')
+                            btnTarjeta.classList.add('btn-success');
+                        }
+                    }
+
+                    for (let i = 0; i < btnMixto.classList.length; i++) {
+                        if ( btnMixto.classList[i] === 'btn-primary' ) {
+                            btnMixto.classList.remove('btn-primary')
+                            btnMixto.classList.add('btn-success');MixbtnMixto
+                        }
+                    }
+
+                    btnEfectivo.classList.remove('btn-success');
+                    btnEfectivo.classList.add('btn-primary')
+
+                    tipoPago.innerHTML = '';
+
+                });
+                
+                btnTarjeta.addEventListener('click', () => {
+
+                    for (let i = 0; i < btnEfectivo.classList.length; i++) {
+                        if ( btnEfectivo.classList[i] === 'btn-primary' ) {
+                            btnEfectivo.classList.remove('btn-primary')
+                            btnEfectivo.classList.add('btn-success');
+                        }
+                    }
+
+                    for (let i = 0; i < btnMixto.classList.length; i++) {
+                        if ( btnMixto.classList[i] === 'btn-primary' ) {
+                            btnMixto.classList.remove('btn-primary')
+                            btnMixto.classList.add('btn-success');
+                        }
+                    }
+
+                    tipoPago.innerHTML = `
+                        <label for="no_tarjeta "> No. Tarjeta </label>
+                        <input id="noTarjeta" name="no_tarjeta" class="form-control" placeholder="0000-0000-0000-0000"/>
+                    `;
+
+                    btnTarjeta.classList.remove('btn-success');
+                    btnTarjeta.classList.add('btn-primary')
+                })
+
+                btnMixto.addEventListener('click', () => {
+
+                    for (let i = 0; i < btnEfectivo.classList.length; i++) {
+                        if ( btnEfectivo.classList[i] === 'btn-primary' ) {
+                            btnEfectivo.classList.remove('btn-primary')
+                            btnEfectivo.classList.add('btn-success');
+                        }
+                    }
+
+                    for (let i = 0; i < btnTarjeta.classList.length; i++) {
+                        if ( btnTarjeta.classList[i] === 'btn-primary' ) {
+                            btnTarjeta.classList.remove('btn-primary')
+                            btnTarjeta.classList.add('btn-success');
+                        }
+                    }
+
+                    tipoPago.innerHTML = `
+                        <div>
+                            <label for="cantidad_efectivo my-2"> Cantidad en efectivo </label>
+                            <input id="cantidadEfectivo" name="cantidad_efectivo" class="form-control" placeholder="$ 00.00"/>
+                        </div>
+                        <div class="bg-secondary p-2">
+                            <div>
+                                <label for="no_tarjeta "> No. Tarjeta </label>
+                                <input id="noTarjeta" name="no_tarjeta" class="form-control" placeholder="0000-0000-0000-0000"/>
+                            </div>
+                            <div>
+                                <label for="cantidad_tarjeta "> Cantidad en tarjeta </label>
+                                <input id="cantidadTarja" name="cantidad_tarjeta" class="form-control" placeholder="$ 00.00">
+                            </div>
+                        </div>
+                    `;
+
+                    btnMixto.classList.remove('btn-success');
+                    btnMixto.classList.add('btn-primary')
+                })
+
+
                 btnGuardarOrden.addEventListener('click', () => {
-                    // const lis = listaOrdenes.querySelectorAll('li');
-                    // for (let i = 0; i < lis.length; i++) {
-                    //     console.log( lis[i] );
-                    // }
 
                     const data = {
                         total_pagar: totalPagar,
