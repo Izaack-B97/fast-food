@@ -121,7 +121,7 @@ const moment = require('moment');
                             <textarea id="descripcion" name="descripcion" class="form-control" rows="10" placeholder="Descripción de la orden" autofocus></textarea>
                         </div>
                         <div class="form-group mt-2">
-                            <h5 class="pull-left">Pagar</h5>
+                            <h4 class="pull-left">Pagar $${ totalPagar }</h4>
                             <div class="clearfix"></div>
                         </div>
                         <div class="btn-group btn-block" role="group" aria-label="Basic example">
@@ -145,7 +145,8 @@ const moment = require('moment');
                 const btnEfectivo =  document.querySelector('#btnEfectivo');
                 const btnTarjeta =  document.querySelector('#btnTarjeta');
                 const btnMixto =  document.querySelector('#btnMixto');
-                const tipoPago = spaceVenta.querySelector('#tipoPago')
+                const tipoPago = spaceVenta.querySelector('#tipoPago');
+                let readyModePay = false, activeEfectivo = false, activeTarjeta = false, activeMixto = true;
                 // const btnCancelarVenta = document.querySelector('#btnCancelarVenta');
 
                 btnEfectivo.addEventListener('click', () => {
@@ -160,7 +161,7 @@ const moment = require('moment');
                     for (let i = 0; i < btnMixto.classList.length; i++) {
                         if ( btnMixto.classList[i] === 'btn-primary' ) {
                             btnMixto.classList.remove('btn-primary')
-                            btnMixto.classList.add('btn-success');MixbtnMixto
+                            btnMixto.classList.add('btn-success');
                         }
                     }
 
@@ -168,7 +169,10 @@ const moment = require('moment');
                     btnEfectivo.classList.add('btn-primary')
 
                     tipoPago.innerHTML = '';
-
+                    readyModePay = true;
+                    activeEfectivo = true;
+                    activeTarjeta = false;
+                    activeMixto = false;
                 });
                 
                 btnTarjeta.addEventListener('click', () => {
@@ -193,7 +197,11 @@ const moment = require('moment');
                     `;
 
                     btnTarjeta.classList.remove('btn-success');
-                    btnTarjeta.classList.add('btn-primary')
+                    btnTarjeta.classList.add('btn-primary');
+                    readyModePay = true;
+                    activeTarjeta = true;
+                    activeEfectivo = false;
+                    activeMixto = false;
                 })
 
                 btnMixto.addEventListener('click', () => {
@@ -224,83 +232,123 @@ const moment = require('moment');
                             </div>
                             <div>
                                 <label for="cantidad_tarjeta "> Cantidad en tarjeta </label>
-                                <input id="cantidadTarja" name="cantidad_tarjeta" class="form-control" placeholder="$ 00.00">
+                                <input id="cantidadTarjeta" name="cantidad_tarjeta" class="form-control" placeholder="$ 00.00">
                             </div>
                         </div>
                     `;
 
                     btnMixto.classList.remove('btn-success');
-                    btnMixto.classList.add('btn-primary')
+                    btnMixto.classList.add('btn-primary');
+                    readyModePay = true;
+                    activeMixto = true;
+                    activeEfectivo = false;
+                    activeTarjeta = false;
                 })
 
 
                 btnGuardarOrden.addEventListener('click', () => {
 
-                    const data = {
-                        total_pagar: totalPagar,
-                        especificacion_orden: document.querySelector('#descripcion').value
-                    };
+                    const actionSaveOrden = () => {
+                        
+                        const data = {
+                            total_pagar: totalPagar,
+                            especificacion_orden: document.querySelector('#descripcion').value
+                        };
 
-                    postToServer('ordenes', data)
-                        .then(resp => {
-                            console.log(resp);
-                            console.log('Orden guardada');
-                            
-                            spaceVenta.innerHTML = '';
-                            spaceVenta.innerHTML += `
-                                <div class="alert alert-success animate__animated animate__bounceInRight" role="alert">
-                                    Orden levantada y guardada satisfactoriamente
-                                </div>
-                            `;
-
-                            data.id = resp.insertId
-                            ipcRenderer.send('orden-levantada', data)
-                            
-
-                            const productosGuardar = [];
-
-                            // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
-                            const liProductos = listaOrdenes.querySelectorAll('li');
-                            console.log(liProductos )
-                            liProductos.forEach(li => {
-                                productosGuardar.push({
-                                    id_producto: parseInt( li.querySelector('input').value ),
-                                    cantidad: 1,
-                                    importe:  parseInt( li.querySelector('.price').value ),
-                                    id_orden: parseInt( divOrden.textContent )
-                                });
-                            });
-
-                            console.log( productosGuardar );
-
-                            // Guardamos en pártidas todos los productos
-                            productosGuardar.forEach(productoPartida => {
+                        postToServer('ordenes', data)
+                            .then(resp => {
+                                console.log(resp);
+                                console.log('Orden guardada');
                                 
-                                postToServer('partidas', productoPartida)
-                                    .then(resp => {
-                                        console.log( resp );
-                                    })
-                                    .catch( err => {
-                                        console.log( err );
+                                spaceVenta.innerHTML = '';
+                                spaceVenta.innerHTML += `
+                                    <div class="alert alert-success animate__animated animate__bounceInRight" role="alert">
+                                        Orden levantada y guardada satisfactoriamente
+                                    </div>
+                                `;
+
+                                data.id = resp.insertId
+                                ipcRenderer.send('orden-levantada', data)
+                                
+
+                                const productosGuardar = [];
+
+                                // TODO: Arreglar las cantidades acumuladoras que se guardan en partidas
+                                const liProductos = listaOrdenes.querySelectorAll('li');
+                                console.log(liProductos )
+                                liProductos.forEach(li => {
+                                    productosGuardar.push({
+                                        id_producto: parseInt( li.querySelector('input').value ),
+                                        cantidad: 1,
+                                        importe:  parseInt( li.querySelector('.price').value ),
+                                        id_orden: parseInt( divOrden.textContent )
                                     });
-                            });
-                            
-                            /**
-                             * AQUI ACCEDEMOS AL PROCESO PRINCIPAL
-                             * PARA INTERACTUAR CON LAS FUNCIONES
-                             */
-                            const main = remote.require('./index.js');
-                            main.newNotification('titulo', 'mensaje');
-                            // location.reload();
+                                });
 
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1300);
+                                console.log( productosGuardar );
 
-                        })
-                        .catch(err => {
-                            console.log( err );
-                        })
+                                // Guardamos en pártidas todos los productos
+                                productosGuardar.forEach(productoPartida => {
+                                    
+                                    postToServer('partidas', productoPartida)
+                                        .then(resp => {
+                                            console.log( resp );
+                                        })
+                                        .catch( err => {
+                                            console.log( err );
+                                        });
+                                });
+                                
+                                /**
+                                 * AQUI ACCEDEMOS AL PROCESO PRINCIPAL
+                                 * PARA INTERACTUAR CON LAS FUNCIONES
+                                 */
+                                const main = remote.require('./index.js');
+                                main.newNotification('titulo', 'mensaje');
+                                // location.reload();
+
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1300);
+
+                            })
+                            .catch(err => {
+                                console.log( err );
+                            })
+                    }
+
+                    // Verificamos la modalidad de pago
+                    if ( readyModePay ) {
+                        if ( activeEfectivo ) {
+                            actionSaveOrden();
+                        }
+                        
+                        if ( activeTarjeta ) {
+                            const inputNoTarjeta = document.querySelector('#noTarjeta');
+                            console.log( inputNoTarjeta.value )
+                            if ( inputNoTarjeta.value === '' ) {
+                                alert('Los datos de la modalidad de pago no pueden ir vacios')
+                            } else {
+                                actionSaveOrden();
+                            }
+                        }
+
+                        if ( activeMixto ) {
+                            const inputNoTarjeta = document.querySelector('#noTarjeta');
+                            const inputCantidadTarjeta = document.querySelector('#cantidadTarjeta');
+                            const inputCantidadEfectivo = document.querySelector('#cantidadEfectivo');
+
+                            if ( inputNoTarjeta.value === '' || inputCantidadTarjeta.value === '' || inputCantidadEfectivo.value === '' ) {
+                                alert('Los datos de la modalidad de pago no pueden ir vacios')
+                            } else {
+                                actionSaveOrden();
+                            }
+
+                        }
+                    } else {
+                        alert('Llene los campos correspondientes');
+                    }
+                
                 }); 
 
                 btnCancelarOrden.addEventListener('click', () => {
