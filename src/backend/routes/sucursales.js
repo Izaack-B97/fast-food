@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { createSucursal, getInfoSucursal, updateSucursal, getSucursales } = require('../controllers/sucursales-controller')
+const { createSucursal, getInfoSucursal, updateSucursal, getSucursales, borrarSucursal } = require('../controllers/sucursales-controller')
 
 router.route('/')
     .get( getSucursales )
@@ -9,6 +9,7 @@ router.route('/')
 
 router.route('/:id')
     .get( getInfoSucursal )
-    .put( updateSucursal );
+    .put( updateSucursal )
+    .delete( borrarSucursal );
 
 module.exports = router;

@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    createEmpleado, getInfoEmpleado, updateEmpleado, getEmpleados
+    createEmpleado, 
+    getInfoEmpleado, 
+    updateEmpleado, 
+    getEmpleados,
+    borrarEmpleado,
 } = require('../controllers/admin-empleados-controller')
 
 router.route('/')
@@ -11,6 +15,7 @@ router.route('/')
 
 router.route('/:id')
     .get( getInfoEmpleado )
-    .put( updateEmpleado );
+    .put( updateEmpleado )
+    .delete( borrarEmpleado )
 
 module.exports = router;
