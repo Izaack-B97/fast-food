@@ -65,8 +65,8 @@ getToServer('admin/empleados')
                         });
         
                         const renderEmpleados = () => {
+                            area_empleados.html('');
                             empleados.forEach(empleado => {
-                            
                                 area_empleados.append(`
                                     <div class="col-6 p-5 padre">
                                         <input name="idSucursal" type="hidden" value=${ empleado.id_sucursal }>
