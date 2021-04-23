@@ -9,20 +9,33 @@
  
     createEmpleado: async ( req, res ) => {   
         try {
+
+            console.log( req.body );
+
             const query = `
                 INSERT INTO empleado 
                     (
                         nombre_empleado, 
                         celular,
                         sexo,
-                        puesto
+                        puesto,
+                        id_equipo,
+                        entrada,
+                        salida,
+                        correo,
+                        id_sucursal
                     )
                 VALUES
                     (
                         "${ req.body.nombre_empleado }",
                         "${ req.body.celular }",
                         "${ req.body.sexo }",
-                        "${ req.body.puesto }"
+                        "${ req.body.puesto }",
+                        ${ req.body.id_equipo },
+                        "${ req.body.hora_entrada }",
+                        "${ req.body.hora_salida }",
+                        "${ req.body.correo }",
+                        ${ req.body.id_sucursal }
                     );
             `;
 

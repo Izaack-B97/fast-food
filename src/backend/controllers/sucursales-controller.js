@@ -10,24 +10,18 @@
     createSucursal: async ( req, res ) => {        
         try {
 
-            console.log( req.body )
-
             const query = `
-                INSERT INTO sucursal
-                    (
-                        nombre_sucursal, 
-                        nombre_encargado,
-                        direccion_sucursal,
-                        celular_sucuarsal,
-                        id_equipo
-                    )
-                VALUES
-                    (
-                        "${ req.body.nombre_sucursal }",
-                        "${ req.body.nombre_encargado }",
-                        "${ req.body.direccion_sucursal }",
-                        "${ req.body.celular_sucursal }",
-                        ${ req.body.id_equipo }
+                INSERT INTO sucursal 
+                    (   nombre_sucursal, 
+                        nombre_encargado, 
+                        direccion_sucursal, 
+                        celular_sucursal 
+                    ) 
+                VALUES ( 
+                        "${ req.body.nombre_sucursal }", 
+                        "${ req.body.nombre_encargado }", 
+                        "${ req.body.direccion_sucursal }", 
+                        "${ req.body.celular_sucursal }" 
                     );
             `;
 

@@ -8,12 +8,25 @@ i {
 }
 
 .container-info {
-     margin-right: 40px;
+     /* margin-right: 0px; */
+     /* margin-left: -100px !important; */
+     /* visibility: hidden; */
+}
+
+
+div.col-6.p-5 img {
+     width: 240px;
+     height: 280px;
 }
 
 @media( max-width: 1400px ) {
      img{
          width: 200px;
+     }
+
+     div.col-6.p-5 img {
+          width: 200px;
+          height: 250px;
      }
 }
 
