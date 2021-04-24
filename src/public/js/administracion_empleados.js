@@ -1,6 +1,5 @@
-console.log('Aqui llegue')
 
-const { getToServer, postToServer } = require('./js/helpers/llamadas');
+const { getToServer, postToServer, putToServer, deleteToServer } = require('./js/helpers/llamadas');
 const $ = require('jquery');
 
 
@@ -19,7 +18,12 @@ const draw_form = ( tpl_form, spanActionText, activeSucursal, activeEmpleado ) =
     btnAction.attr('data-empleado', activeEmpleado);
 }
 
-
+const notificarAccion = () => {
+    setTimeout(() => {
+        alert('Acción completada')
+        window.location.reload();
+    }, 500);
+}
 
 (() => {
 
@@ -31,6 +35,13 @@ getToServer('admin/empleados')
                 // console.log( sucursales )
                 getToServer('admin/equipos')
                     .then(equipos => {
+
+                        equipos.forEach(( equipo ) => {
+                            // console.log( equipo );
+                            $('#equiposTrabajoInfo').append(`
+                                <option value=${ equipo.id_equipo }>${ equipo.descripcion_equipo}</option>
+                            `);
+                        });
 
                         const area_empleados = $('#area-empleados');
                         equipos.sort(function (a, b) {
@@ -58,10 +69,13 @@ getToServer('admin/empleados')
                         });
                         sucursales.forEach(sucursal => {
                             // console.log( sucursal )
-
                             $('#selectSucursales').append(`
                                 <option value=${ sucursal.id_sucursal }>${ sucursal.nombre_sucursal }</option>
                             `)
+                            $('#sucursalEmpleadoInfo').append(`
+                            <option value=${ sucursal.id_sucursal }>${ sucursal.nombre_sucursal }</option>
+                        `)
+
                         });
         
                         const renderEmpleados = () => {
@@ -256,8 +270,7 @@ getToServer('admin/empleados')
                                 } else {
                                     postToServer('admin/empleados', data)
                                         .then(res => {
-                                            console.log( res )
-                                            window.location.reload();
+                                            notificarAccion()
                                         })
                                         .catch( err => console.log )
                                 }
@@ -277,7 +290,7 @@ getToServer('admin/empleados')
                                     postToServer('admin/sucursales', data)
                                         .then(res => {
                                             // console.log( res );
-                                            window.location.reload();
+                                            notificarAccion()
                                         })
                                         .catch( err => console.log );
                                 }
@@ -306,19 +319,52 @@ getToServer('admin/empleados')
                                 getToServer(`admin/empleados/${ id }`)
                                     .then(data => {
                                         const info = data[0];
-                                        console.log( info )
-                                        $('#foto-perfil').attr('src', info.url)
+                                        $('#foto-perfil').attr('src', !info.url ? './img/user.png' : info.url )
+                                        $('#idEmpleado').val( info.id_empleado );
                                         $('#nombreEmpleado').val( info.nombre_empleado );
-                                        $('#puesto').val( info.puesto );
+                                        $('#puestoEmpleados').val( info.puesto );
+                                        $('#sexo').val( info.sexo );
                                         $('#edad').val( info.edad );
                                         $('#celular').val( info.celular );
-                                        $('#').val( info.nombre_empleado );
+                                        $('#nombreEmpleado').val( info.nombre_empleado );
                                         $('#horaEntrada').val( info.entrada );
                                         $('#horaSalida').val( info.salida );
-                                        // $('#nombreEmpleado').val( info.nombre_empleado );
-                                        
+                                        $('#sucursalEmpleadoInfo').val( info.id_sucursal );
+                                        $('#equiposTrabajoInfo').val( info.id_equipo );
+                                    });
+                            });
+                        });
+
+                        // Actualizamos la data
+                        $('#btnActualizar').on('click', () => {
+                            let info = {};
+                            info.id_empleado = $('#idEmpleado').val()
+                            info.nombre_empleado = $('#nombreEmpleado').val();
+                            info.puesto = $('#puestoEmpleados').val();
+                            info.sexo = $('#sexo').val();
+                            info.edad = $('#edad').val();
+                            info.celular = $('#celular').val();
+                            info.entrada = $('#horaEntrada').val();
+                            info.salida = $('#horaSalida').val();
+                            info.id_sucursal = $('#sucursalEmpleadoInfo').val();
+                            info.id_equipo = $('#equiposTrabajoInfo').val();
+
+                            putToServer(`admin/empleados/${ info.id_empleado }`, info)
+                                .then(res => {
+                                    notificarAccion()
+                                });
+                        });
+
+                        $('#btnEliminar').on('click', () => {
+                            const confirmacion = confirm('¿Estas seguro de que quieres eliminar a este empleado?')
+                            
+                            if ( confirmacion ) {
+                                deleteToServer(`admin/empleados/${ $('#idEmpleado').val() }`)
+                                    .then(res => {
+                                        // console.log( res );
+                                        notificarAccion()
                                     })
-                            })
+                            }
                         });
 
                     });

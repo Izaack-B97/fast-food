@@ -88,6 +88,10 @@
                     <img id="foto-perfil" src="" alt="user">
                     <form>
                         <div class="form-group">
+                            <label for="idEmpleado">ID</label>
+                            <input type="text" name="idEmpleado" class="form-control" id="idEmpleado" disabled>
+                        </div>
+                        <div class="form-group">
                             <label for="nombreEmpleado">Nombre</label>
                             <input type="text" name="nombreEmpleado" class="form-control" id="nombreEmpleado" placeholder="Escriba su nombre">
                         </div>
@@ -106,8 +110,8 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Sexo</label>
                             <select class="form-control" id="sexo">
-                                <option>Hombre</option>
-                                <option>Mujer</option>
+                                <option value="Hombre">Hombre</option>
+                                <option value="Mujer">Mujer</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -120,21 +124,21 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Sucursal</label>
-                            <select class="form-control" id="sucursalEmpleado">
+                            <select class="form-control" id="sucursalEmpleadoInfo">
                                 <--! Aqui van las sucursales  -->
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Equipos de trabajo</label>
-                            <select class="form-control" id="equiposTrabajo">
+                            <select class="form-control" id="equiposTrabajoInfo">
                                 <--! Aqui van las sucursales  -->
                             </select>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-vino">Actualizar</button>
-                    <button type="button" class="btn btn-vino">Eliminar</button>
+                    <button id="btnActualizar" type="button" class="btn btn-vino">Actualizar</button>
+                    <button id="btnEliminar" type="button" class="btn btn-vino">Eliminar</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </div>
