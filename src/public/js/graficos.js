@@ -1,6 +1,7 @@
 const moment = require('moment');
 const render_grafico = require('./js/helpers/graficas');
 const { getToServer } = require('./js/helpers/llamadas');
+const $ = require('jquery');
 
 (function() {
     console.log('--- graficos.js ---');
@@ -88,5 +89,9 @@ const { getToServer } = require('./js/helpers/llamadas');
     //     .catch(err => {
     //         console.log( err );
     //     });
+
+    $( '#selectSucursales' ).change(( e ) => {
+        console.log( e.target.value );
+    });
 
 })();

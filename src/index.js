@@ -6,7 +6,7 @@ const path = require('path');
 require('./backend/app');
 // Reload --> Sirve para refrescar cualquier cambio 
 // en el front
-// require('electron-reload')(__dirname);
+require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -32,8 +32,8 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
 
-  mainWindow.setMenuBarVisibility( false );
-  mainWindow.setMenu( null )
+  // mainWindow.setMenuBarVisibility( false );
+  // mainWindow.setMenu( null )
   mainWindow.maximize(); 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -45,15 +45,15 @@ const createWindow = () => {
     resizable: false,
     // transparent: true,
     // closable: false,
-    frame: false,
+    // frame: false,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true 
     }
   });
 
-  cocineroWindow.setMenu(  null );
-  cocineroWindow.setMenuBarVisibility( false );
+  // cocineroWindow.setMenu(  null );
+  // cocineroWindow.setMenuBarVisibility( false );
   // cocineroWindow.maximize();
   cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
 

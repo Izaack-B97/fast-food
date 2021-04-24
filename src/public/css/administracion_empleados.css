@@ -1,0 +1,44 @@
+p {
+     margin: 0;
+     padding: 0;
+}
+
+i {
+     font-size: 15px;
+}
+
+.container-info {
+     /* margin-right: 0px; */
+     /* margin-left: -100px !important; */
+     /* visibility: hidden; */
+}
+
+
+div.col-6.p-5 img {
+     width: 240px;
+     height: 280px;
+}
+
+div.col-6.p-5:hover {
+     background: lightgray;
+     border-radius: 25px;
+     cursor: pointer;
+     /* color: white; */
+}
+
+#foto-perfil {
+     width: 250px;
+     height: 300px;
+}
+
+@media( max-width: 1400px ) {
+     img{
+         width: 200px;
+     }
+
+     div.col-6.p-5 img {
+          width: 200px;
+          height: 250px;
+     }
+}
+

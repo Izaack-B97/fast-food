@@ -54,6 +54,10 @@ textarea {
     text-align: start;
 }
 
+.text-right {
+    text-align: end;
+}
+
 @media( min-width: 1200px ) {
   
     .full-expand {
