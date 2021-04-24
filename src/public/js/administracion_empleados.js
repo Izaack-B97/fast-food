@@ -70,6 +70,7 @@ getToServer('admin/empleados')
                                 area_empleados.append(`
                                     <div class="col-6 p-5 padre">
                                         <input name="idSucursal" type="hidden" value=${ empleado.id_sucursal }>
+                                        <input name="idEmpleado" type="hidden" value=${ empleado.id_empleado }>
                                         <div>
                                             <img class="pull-left" src="${ empleado.url === null ? './img/user.png' : empleado.url}" alt="user">
                                             <div class="pull-right container-info">
@@ -220,10 +221,7 @@ getToServer('admin/empleados')
                                 $('#equiposTrabajo').append(`
                                     <option value=${ equipo.id_equipo }>${ equipo.descripcion_equipo }</option>
                                 `);
-                            });
-
-                            
-                            
+                            });                            
                         });
                         
                         const registrar_nuevo_item = ( apartado ) => {
@@ -297,6 +295,32 @@ getToServer('admin/empleados')
                                 registrar_nuevo_item( 'sucursal' )
                             }
                         });
+
+                        $.each($('.padre'), ( i, div ) => {
+                            $(div).attr('data-bs-toggle', 'modal');
+                            $(div).attr('data-bs-target', '#modalInfo');
+                            $(div).attr('data-bs-whatever', '@mdo')
+                            
+                            $(div).on('click', () => {
+                                const id = $( div ).find('input[name="idEmpleado"]').val();
+                                getToServer(`admin/empleados/${ id }`)
+                                    .then(data => {
+                                        const info = data[0];
+                                        console.log( info )
+                                        $('#foto-perfil').attr('src', info.url)
+                                        $('#nombreEmpleado').val( info.nombre_empleado );
+                                        $('#puesto').val( info.puesto );
+                                        $('#edad').val( info.edad );
+                                        $('#celular').val( info.celular );
+                                        $('#').val( info.nombre_empleado );
+                                        $('#horaEntrada').val( info.entrada );
+                                        $('#horaSalida').val( info.salida );
+                                        // $('#nombreEmpleado').val( info.nombre_empleado );
+                                        
+                                    })
+                            })
+                        });
+
                     });
             });
     })

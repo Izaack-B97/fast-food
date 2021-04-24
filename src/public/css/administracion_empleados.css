@@ -19,6 +19,18 @@ div.col-6.p-5 img {
      height: 280px;
 }
 
+div.col-6.p-5:hover {
+     background: lightgray;
+     border-radius: 25px;
+     cursor: pointer;
+     /* color: white; */
+}
+
+#foto-perfil {
+     width: 250px;
+     height: 300px;
+}
+
 @media( max-width: 1400px ) {
      img{
          width: 200px;
