@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast food</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- Animaciones -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>  -->
+    <link rel="stylesheet" href="./css/animate.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/helps.css">
+    <link rel="stylesheet" href="./css/almacen.css">
+</head>
+<body class="p-5 animate__animated animate__bounceInLeft">
+    <header class="mx-5 text-center">
+        <a href="./index.html" class="btn btn-vino py-4 mt-4 pull-left">Volver</a>
+        <img src="./img/logo.png" alt="logo" class="">
+        <h2 class="d-inline-block pull-right mt-5">ALMAC&Eacute;N</h2>
+        <div class="clearfix"></div>
+    </header>
+    <section class="px-5 m-4">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <a id="btnNuevo" class="btn btn-vino py-4 mt-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">NUEVO</a>
+                <a id="btnBorrar" class="btn btn-vino py-4 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@mdo">BORRAR</a>
+            </div>
+        </div>
+        <div class="row px-5">
+            <div class="col-sm-12 px-5">
+                <select name="" id="" class="form-control" style="width: 200px;">
+                    <option value="" selected disabled>Materia</option>
+                    <option>Materia 1</option>
+                    <option>Materia 2</option>
+                    <option>Materia 3</option>
+                    <option>Materia 4</option>
+                    <option>Materia 5</option>
+                </select>
+            </div>
+        </div>
+        <div class="row px-5">
+            <div class="col-sm-3 p-5 mr-2">
+                <div class="card mx-auto" style="width: 23rem;">
+                    <img src="./img/dogo-ejemplo.png" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Panes</h5>
+                        <p class="card-text p-0 m-0">Cantidad en almacén</p>
+                        <p class="card-text p-0 m-0">(Paquetes)</p>
+                        <p class="card-text p-0 m-0">20</p>
+                        <a id="btnBorrar" class="btn btn-vino py-2 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">EDITAR</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 p-5 mr-2">
+                <div class="card mx-auto" style="width: 23rem;">
+                    <img src="./img/dogo-ejemplo.png" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Panes</h5>
+                        <p class="card-text p-0 m-0">Cantidad en almacén</p>
+                        <p class="card-text p-0 m-0">(Paquetes)</p>
+                        <p class="card-text p-0 m-0">20</p>
+                        <a id="btnBorrar" class="btn btn-vino py-2 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">EDITAR</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 p-5 mr-2">
+                <div class="card mx-auto" style="width: 23rem;">
+                    <img src="./img/dogo-ejemplo.png" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Panes</h5>
+                        <p class="card-text p-0 m-0">Cantidad en almacén</p>
+                        <p class="card-text p-0 m-0">(Paquetes)</p>
+                        <p class="card-text p-0 m-0">20</p>
+                        <a id="btnBorrar" class="btn btn-vino py-2 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">EDITAR</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 p-5 mr-2">
+                <div class="card mx-auto" style="width: 23rem;">
+                    <img src="./img/dogo-ejemplo.png" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Panes</h5>
+                        <p class="card-text p-0 m-0">Cantidad en almacén</p>
+                        <p class="card-text p-0 m-0">(Paquetes)</p>
+                        <p class="card-text p-0 m-0">20</p>
+                        <a id="btnBorrar" class="btn btn-vino py-2 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo">EDITAR</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <!-- Modal para crear en a almacen -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="Producto">Producto</label>
+                            <input type="text" name="Producto" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_producto">Tipo de producto</label>
+                            <input type="text" name="tipo_producto" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="Cantidad">Cantidad</label>
+                            <input type="number" name="Cantidad" class="form-control">
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnRegistrar" type="button" class="btn btn-vino">
+                        Registrar 
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para borrar en almacen -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div id="mySpace" class="col-sm-12">
+                            <h1>Modal para eliminar productos</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnEliminarProductos" type="button" class="btn btn-vino">
+                        Eliminar
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para crear en a almacen -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar producto en almacén</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="id">ID</label>
+                            <input type="text" name="id" class="form-control" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="Producto">Producto</label>
+                            <input type="text" name="Producto" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_producto">Tipo de producto</label>
+                            <input type="text" name="tipo_producto" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="Cantidad">Cantidad</label>
+                            <input type="number" name="Cantidad" class="form-control">
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnRegistrar" type="button" class="btn btn-vino">
+                        Actualizar
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"           integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+    <script src="./js/almacen.js"></script>
+</body>
+</html>
