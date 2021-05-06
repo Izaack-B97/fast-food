@@ -25,13 +25,15 @@ module.exports = {
                     (
                         producto,
                         tipo_producto,
-                        cantidad
+                        cantidad,
+                        url
                     )
                 VALUES
                     (
                         "${ req.body.producto }", 
                         "${ req.body.tipo_producto }",
-                        ${ req.body.cantidad }
+                        ${ req.body.cantidad },
+                        "${ req.body.url }"
                     );
             `;
 
@@ -93,6 +95,22 @@ module.exports = {
             res.json({
                 status: 'failed',
                 message: 'Error al eliminar producto en almacen: ' + error
+            });
+        }
+    },
+
+    getTiposAlmacen: async ( req, res ) => {        
+        try {
+            const query = `SELECT DISTINCT(tipo_producto) FROM almacen`;
+
+            const conn = await getConnection();
+            const result =  await conn.query( query );
+
+            res.json( result );
+        } catch (error) {
+            res.json({
+                status: 'failed',
+                message: 'Error al obtener los tipos de producto en almacen: ' + error
             });
         }
     },

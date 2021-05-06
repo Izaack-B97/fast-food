@@ -2,7 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 // Acciones
-const { getAlmacen, createAlmacenProducto, getProductoAlmacen, updateAlmacenProducto, deleteAlmacenProducto } = require('../controllers/almacen-controller');
+const { 
+    getAlmacen, 
+    createAlmacenProducto, 
+    getProductoAlmacen, 
+    updateAlmacenProducto, 
+    deleteAlmacenProducto, 
+    getTiposAlmacen 
+} = require('../controllers/almacen-controller');
 
 router.route('/')
     .get( getAlmacen )
@@ -13,4 +20,7 @@ router.route('/:id')
     .put( updateAlmacenProducto )
     .delete( deleteAlmacenProducto );
 
+
+router.route('/todos/tipos_productos')
+    .get( getTiposAlmacen );
 module.exports = router;

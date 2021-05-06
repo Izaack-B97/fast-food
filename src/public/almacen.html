@@ -24,18 +24,13 @@
         <div class="row">
             <div class="col-sm-12 text-center">
                 <a id="btnNuevo" class="btn btn-vino py-4 mt-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">NUEVO</a>
-                <a id="btnBorrar" class="btn btn-vino py-4 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@mdo">BORRAR</a>
+                <a id="btnBorrar" class="btn btn-vino py-4 mt-4 mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@mdo">ELIMINAR</a>
             </div>
         </div>
         <div class="row px-5">
             <div class="col-sm-12 px-5">
-                <select name="" id="" class="form-control" style="width: 200px;">
-                    <option value="" selected disabled>Filtrar</option>
-                    <option>Materia 1</option>
-                    <option>Materia 2</option>
-                    <option>Materia 3</option>
-                    <option>Materia 4</option>
-                    <option>Materia 5</option>
+                <select name="" id="tiposOptions" class="form-control" style="width: 200px;">
+                    <option value="todos" selected>Todos</option>
                 </select>
             </div>
         </div>
@@ -54,17 +49,20 @@
                     <form>
                         <div class="form-group">
                             <label for="Producto">Producto</label>
-                            <input type="text" name="Producto" class="form-control">
+                            <input id="producto" type="text" name="Producto" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="tipo_producto">Tipo de producto</label>
-                            <input type="text" name="tipo_producto" class="form-control">
+                            <input id="tipo_producto" type="text" name="tipo_producto" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="Cantidad">Cantidad</label>
-                            <input type="number" name="Cantidad" class="form-control">
+                            <input id="cantidad" type="number" name="Cantidad" class="form-control">
                         </div>
-                        
+                        <div class="form-group">
+                            <label for="url">URL Imagen</label>
+                            <input id="url" type="text" name="url" class="form-control">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -82,14 +80,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Registrar producto</h5>
+                    <h5 class="modal-title">Eliminar producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div id="mySpace" class="col-sm-12">
-                            <h1>Modal para eliminar productos</h1>
-                        </div>
+                        <ul class="list-group list-unstyled" id="lista-productos-eliminar">
+                            <!-- Mis productos a eliminae -->
+                        </ul>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -128,7 +126,6 @@
                             <label for="Cantidad">Cantidad</label>
                             <input id="cantidadInfo" type="number" name="Cantidad" class="form-control">
                         </div>
-                        
                     </form>
                 </div>
                 <div class="modal-footer">
