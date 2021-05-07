@@ -123,7 +123,7 @@ getToServer('admin/empleados')
                                     if ( $( input ).val() !== idSucursal ) {
                                         $( input ).closest('.padre').hide();
                                     } else {
-                                        $( input ).closest('.padre').show().addClass('animate__animated animate__fadeIn');;
+                                        $( input ).closest('.padre').show().addClass('animate__animated animate__fadeIn');
                                     }
                                 });
                             }
