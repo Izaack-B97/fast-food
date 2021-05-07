@@ -70,7 +70,8 @@ module.exports = {
                 UPDATE almacen SET
                     producto = "${ req.body.producto }",
                     tipo_producto = "${ req.body.tipo_producto }",
-                    cantidad = ${ req.body.cantidad }
+                    cantidad = ${ req.body.cantidad },
+                    url = "${ req.body.url }"
                 WHERE id_almacen = ${ req.params.id };
             `;
 

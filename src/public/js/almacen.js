@@ -70,22 +70,29 @@ const $ = require('jquery');
                         $('#productoInfo').val( producto.producto );
                         $('#tipoProductoInfo').val( producto.tipo_producto );
                         $('#cantidadInfo').val( producto.cantidad );
+                        $('#urlImagenInfo').val( producto.url );
                     })
 
                 $('#btnActualizar').on('click', () => {
                     const data = {
                         producto: $('#productoInfo').val(),
                         tipo_producto: $('#tipoProductoInfo').val(),
-                        cantidad: $('#cantidadInfo').val()
+                        cantidad: $('#cantidadInfo').val(),
+                        url: $('#urlImagenInfo').val()
                     }
-                    putToServer(`almacen/${ id }`, data)
-                        .then(resp => {
-                            // console.log( resp )
-                            alert('Almacen actualizado')
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 500);
-                        })
+
+                    if ( data.producto === '' || data.tipo_producto === '' || data.cantidad === '' || data.url === '') {
+                        alert('Todos los campos son obligatorios')
+                    } else {
+                        putToServer(`almacen/${ id }`, data)
+                            .then(resp => {
+                                console.log( resp )
+                                alert('Almacen actualizado')
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 500);
+                            })
+                    }
                 });
             });
             
@@ -155,7 +162,7 @@ const $ = require('jquery');
                         if ( $( input ).val() !== value ) {
                             $( input ).parents('div.col-sm-3.p-5.mr-2').css('display', 'none')
                         } else {
-                            $( input ).parents('div.col-sm-3.p-5.mr-2').css('display', '')                        
+                            $( input ).parents('div.col-sm-3.p-5.mr-2').css('display', '').addClass('animate__animated animate__fadeIn');                    
                         }
                     });
                 }

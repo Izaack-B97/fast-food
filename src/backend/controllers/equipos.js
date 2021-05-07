@@ -4,7 +4,7 @@
  */
 
 const { getConnection } =  require('../database');
-console.log( 'Aqui' )
+// console.log( 'Aqui' )
 module.exports = {
 
     getEquipos: async ( req, res ) => {

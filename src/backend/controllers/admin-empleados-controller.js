@@ -88,12 +88,13 @@
     updateEmpleado: async ( req, res ) => {
         try {
             const query = `
-            UPDATE EMPLEADO SET 
-                nombre_empleado = "${ req.body.nombre_empleado }",
-                celular = "${ req.body.celular }",
-                sexo = "${ req.body.sexo }",
-                puesto = "${ req.body.puesto }"
-            WHERE id_empleado = ${ req.params.id };
+                UPDATE EMPLEADO SET 
+                    nombre_empleado = "${ req.body.nombre_empleado }",
+                    celular = "${ req.body.celular }",
+                    sexo = "${ req.body.sexo }",
+                    puesto = "${ req.body.puesto }"
+                    url = "${ req.body.url }"
+                WHERE id_empleado = ${ req.params.id };
             `;
 
             const conn = await getConnection();
