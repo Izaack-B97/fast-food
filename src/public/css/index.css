@@ -36,3 +36,13 @@ hr {
     width: 40% important;
   }
 }
+
+/* @media( max-width: 1500px ) {
+  #area-imagen {
+    width: 70%;
+  }
+
+  #area-imagen {
+    width: 30%;
+  }
+} */
