@@ -96,7 +96,7 @@ getToServer('admin/empleados')
                                                 <p>Entrada: ${ empleado.entrada }</p>
                                                 <p>Salida: ${ empleado.salida }</p>
                                                 <p>
-                                                    <i class="fab fa-google my-2">&nbsp;Empleado1@gmail.com</i>
+                                                    <i class="fab fa-google my-2">&nbsp;${ empleado.correo }</i>
                                                 </p>
                                                 <p>
                                                     <i class="fas fa-phone-alt my-2">&nbsp;${ empleado.celular }</i>                 
@@ -195,6 +195,10 @@ getToServer('admin/empleados')
                                         <input type="text" name="celuar" class="form-control" id="celular">
                                     </div>
                                     <div class="form-group">
+                                        <label for="correo">Correo</label>
+                                        <input type="email" name="correo" class="form-control" id="correoNew">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="exampleFormControlSelect1">Sexo</label>
                                         <select class="form-control" id="sexo">
                                             <option>Hombre</option>
@@ -220,6 +224,10 @@ getToServer('admin/empleados')
                                         <select class="form-control" id="equiposTrabajo">
                                             <--! Aqui van las sucursales  -->
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="url">URL Foto</label>
+                                        <input type="text" name="url" class="form-control" id="urlEmpleados">
                                     </div>
                                 </form>
                             `;
@@ -249,10 +257,12 @@ getToServer('admin/empleados')
                                     sexo: $('#sexo').val(),
                                     puesto: $('#puestoEmpleados').val(),
                                     edad: parseInt( $('#edad').val() ),
+                                    correo: $('#correoNew').val(),
                                     hora_entrada: $('#horaEntrada').val(),
                                     hora_salida: $('#horaSalida').val(),
                                     id_sucursal: parseInt( $('#sucursalEmpleado').val() ),
-                                    id_equipo: parseInt( $('#equiposTrabajo').val() )
+                                    id_equipo: parseInt( $('#equiposTrabajo').val() ),
+                                    url: $('#urlEmpleados').val()
                                 }
                                 
                                 // console.log( data )
@@ -319,6 +329,7 @@ getToServer('admin/empleados')
                                 getToServer(`admin/empleados/${ id }`)
                                     .then(data => {
                                         const info = data[0];
+                                        console.log( info )
                                         $('#foto-perfil').attr('src', !info.url ? './img/user.png' : info.url )
                                         $('#idEmpleado').val( info.id_empleado );
                                         $('#nombreEmpleado').val( info.nombre_empleado );
@@ -331,6 +342,8 @@ getToServer('admin/empleados')
                                         $('#horaSalida').val( info.salida );
                                         $('#sucursalEmpleadoInfo').val( info.id_sucursal );
                                         $('#equiposTrabajoInfo').val( info.id_equipo );
+                                        $('#correo').val( info.correo );
+                                        $('#urlFoto').val( info.url );
                                     });
                             });
                         });
@@ -338,21 +351,39 @@ getToServer('admin/empleados')
                         // Actualizamos la data
                         $('#btnActualizar').on('click', () => {
                             let info = {};
-                            info.id_empleado = $('#idEmpleado').val()
+                            info.id_empleado = parseInt($('#idEmpleado').val());
                             info.nombre_empleado = $('#nombreEmpleado').val();
                             info.puesto = $('#puestoEmpleados').val();
                             info.sexo = $('#sexo').val();
-                            info.edad = $('#edad').val();
+                            info.edad = parseInt($('#edad').val());
                             info.celular = $('#celular').val();
                             info.entrada = $('#horaEntrada').val();
                             info.salida = $('#horaSalida').val();
-                            info.id_sucursal = $('#sucursalEmpleadoInfo').val();
-                            info.id_equipo = $('#equiposTrabajoInfo').val();
+                            info.id_sucursal = parseInt($('#sucursalEmpleadoInfo').val());
+                            info.id_equipo = parseInt($('#equiposTrabajoInfo').val());
+                            info.correo = $('#correo').val();
+                            info.url = $('#urlFoto').val();
 
-                            putToServer(`admin/empleados/${ info.id_empleado }`, info)
-                                .then(res => {
-                                    notificarAccion()
-                                });
+                            // console.log( info )
+
+                            if (
+                                info.nombre_empleado === '' ||
+                                info.puesto === '' ||
+                                info.sexo === '' ||
+                                info.edad === '' ||
+                                info.celular === '' ||
+                                info.entrada === '' ||
+                                info.salida === '' ||
+                                info.correo === ''
+                            ) {
+                                alert('Todos los campos son obligatorios')
+                            } else {
+                                putToServer(`admin/empleados/${ info.id_empleado }`, info)
+                                    .then(res => {
+                                        console.log( res );
+                                        notificarAccion()
+                                    });
+                            }
                         });
 
                         $('#btnEliminar').on('click', () => {

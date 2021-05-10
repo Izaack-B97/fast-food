@@ -20,7 +20,9 @@
                         entrada,
                         salida,
                         correo,
-                        id_sucursal
+                        id_sucursal,
+                        edad,
+                        url
                     )
                 VALUES
                     (
@@ -32,7 +34,9 @@
                         "${ req.body.hora_entrada }",
                         "${ req.body.hora_salida }",
                         "${ req.body.correo }",
-                        ${ req.body.id_sucursal }
+                        ${ req.body.id_sucursal },
+                        ${ parseInt(req.body.edad) },
+                        "${ req.body.url }"
                     );
             `;
 
@@ -85,14 +89,23 @@
     },
 
     updateEmpleado: async ( req, res ) => {
+        
+        console.log( req.body );
+
         try {
             const query = `
                 UPDATE EMPLEADO SET 
                     nombre_empleado = "${ req.body.nombre_empleado }",
                     celular = "${ req.body.celular }",
                     sexo = "${ req.body.sexo }",
-                    puesto = "${ req.body.puesto }"
-                    url = "${ req.body.url }"
+                    edad = ${ req.body.edad },
+                    puesto = "${ req.body.puesto }",
+                    entrada = "${ req.body.entrada }",
+                    salida = "${ req.body.salida }",
+                    correo = "${ req.body.correo }",
+                    url = "${ req.body.url }",
+                    id_sucursal = ${ req.body.id_sucursal },
+                    id_equipo = ${ req.body.id_equipo }
                 WHERE id_empleado = ${ req.params.id };
             `;
 

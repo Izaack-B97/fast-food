@@ -20,11 +20,14 @@ let connection = mysql.createConnection( dbConfig );
 
 const getConnection = () => {
     
-    // handle disconnect database
-    const statusDatabaseConnection = connection._rejectionHandler0.connection.state;
-    console.log( statusDatabaseConnection );
-    if ( statusDatabaseConnection === 'disconnected' ) connection = mysql.createConnection( dbConfig );
-    // end handle disconnect database
+    // handle discconected database
+    connection
+        .then(conn => {
+            const statusConnection = conn.connection.state;
+            if (statusConnection === 'disconnected') connection = mysql.createConnection( dbConfig );
+            
+        })
+        .catch( err => console.log );
 
     return connection;
 };
