@@ -29,13 +29,13 @@ const notificarAccion = () => {
 
 getToServer('admin/empleados')
     .then(empleados => {
-        // console.log( empleados )
+        console.log( empleados )
         getToServer('admin/sucursales')
             .then(sucursales => {
-                // console.log( sucursales )
+                console.log( sucursales )
                 getToServer('admin/equipos')
                     .then(equipos => {
-
+                        console.log( equipos );
                         equipos.forEach(( equipo ) => {
                             // console.log( equipo );
                             $('#equiposTrabajoInfo').append(`

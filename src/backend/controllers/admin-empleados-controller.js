@@ -9,9 +9,6 @@
  
     createEmpleado: async ( req, res ) => {   
         try {
-
-            console.log( req.body );
-
             const query = `
                 INSERT INTO empleado 
                     (
@@ -65,6 +62,8 @@
                 status: 'failed',
                 message: 'Error al obtener los empleados: ' + error
             });
+            
+            throw error;
         }
 
     },

@@ -32,9 +32,9 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'public/index.html'));
 
-  mainWindow.setMenuBarVisibility( false );
-  mainWindow.setMenu( null )
-  // mainWindow.maximize(); 
+  // mainWindow.setMenuBarVisibility( false );
+  // mainWindow.setMenu( null )
+  mainWindow.maximize(); 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 
@@ -52,8 +52,8 @@ const createWindow = () => {
     }
   });
 
-  cocineroWindow.setMenu(  null );
-  cocineroWindow.setMenuBarVisibility( false );
+  // cocineroWindow.setMenu(  null );
+  // cocineroWindow.setMenuBarVisibility( false );
   // cocineroWindow.maximize();
   cocineroWindow.loadFile( path.join(__dirname, 'public/cocinero.html') );
 
